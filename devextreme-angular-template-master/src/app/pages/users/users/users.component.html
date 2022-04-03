@@ -1,0 +1,57 @@
+<h2 class="content-block">Zoznam používateľov</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Používatelia</h3>
+    </div>
+
+    <div id="data-grid-demo">
+      <dx-data-grid
+        id="gridContainer"
+        [dataSource]="dataSource"
+        keyExpr="id"
+        [showBorders]="true"
+        [allowColumnReordering]="true"
+        [allowColumnResizing]="true"
+        [hoverStateEnabled]="true"
+        (onRowDblClick)="handleRowDblClick($event)"
+      >
+        <dxo-search-panel [visible]="true"></dxo-search-panel>
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[5, 10, 20]"
+            [showNavigationButtons]="true">
+        </dxo-pager>
+        <dxo-editing
+          mode="form"
+          [allowUpdating]="true"
+          [allowDeleting]="true"
+          [confirmDelete]="true"
+        >
+        </dxo-editing>
+    
+        <dxi-column dataField="id" [visible]="false"></dxi-column>
+        <dxi-column dataField="first_Name" caption="Meno" [width]="150"></dxi-column>
+        <dxi-column dataField="last_Name" caption="Priezvisko" [width]="200"></dxi-column>
+        <dxi-column dataField="login" caption="Login" [width]="150"></dxi-column>
+        <dxi-column dataField="role" caption="Rola" [width]="150"></dxi-column>
+        <dxi-column dataField="email" caption="E-mail" [width]="250"></dxi-column>
+        <dxi-column dataField="phone_Number" caption="Mobil" [width]="150"></dxi-column>
+
+        <dxi-column type="buttons">
+          <dxi-button name="edit" [hint]="'Upraviť'" [onClick]="handleEdit"></dxi-button>
+          <dxi-button name="delete" [hint]="'Zmazať'" [onClick]="deleteEdit"></dxi-button>
+        </dxi-column>   
+      </dx-data-grid>
+
+      <dx-form id="form2" style="margin: 10px;">
+        <dxi-item
+          itemType="button"
+          [buttonOptions]="{text: 'Pridaj použivateľa', onClick: handleAdd}">
+        </dxi-item>
+      </dx-form>
+    </div>
+</div>
+</div>
+

@@ -1,0 +1,36 @@
+<h2 class="content-block">Companies</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Firmy & Eventy & Tickety</h3>
+    </div>
+
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataSource"
+    keyExpr="ID"
+    [allowColumnReordering]="true"
+    [showBorders]="true"
+  >
+
+  <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true"></dxo-editing>     
+
+    <dxi-column dataField="Name"></dxi-column>
+    <dxi-column dataField="Date"></dxi-column>
+    <dxi-column dataField="Capacity"></dxi-column>
+    <dxi-column dataField="AddInfo"></dxi-column>
+    <dxi-column dataField="Companies" caption="Firma" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="Events" caption="Event" [groupIndex]="1"></dxi-column>
+
+    <dxi-column type="buttons">
+      <dxi-button name="edit" text="Viac" icon="help"></dxi-button>
+      <dxi-button name="delete" text="Kupit" icon="cart"></dxi-button>
+    </dxi-column>  
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+  </dx-data-grid>
+
+
+</div>
+</div>

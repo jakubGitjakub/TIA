@@ -1,0 +1,18 @@
+.logos-container {
+  margin: 10px 0 20px 0;
+  text-align: center;
+  svg {
+    display: inline-block;
+  }
+}
+
+.content-block {
+  font-size: 20px;
+}
+
+:host-context(.screen-x-small) .logos-container {
+  svg {
+    width: 100%;
+    display: block;
+  }
+}
