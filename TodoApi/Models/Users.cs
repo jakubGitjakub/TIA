@@ -10,9 +10,11 @@
         public DateTime? Birthdate { get; set; }
         public string? Phone_Number { get; set; }
         public string? Image_Path { get; set; }
+        public string? Note { get; set; }
         public string Role { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public string Login { get; set; } = string.Empty;
+        public byte[]? PasswordHash { get; set; }
+        public byte[]? PasswordSalt { get; set; }
         public Boolean Verify_Status { get; set; }
         public virtual List<LoginHistory>? LoginHistory { get; set; }
         public virtual List<ShopingHistory>? ShopingHistory { get; set; }

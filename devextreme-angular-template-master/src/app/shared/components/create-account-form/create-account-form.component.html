@@ -1,10 +1,10 @@
 <form class="create-account-form" (submit)="onSubmit($event)">
   <dx-form [formData]="formData" [disabled]="loading">
 
-    <dxi-item dataField="email" editorType="dxTextBox"
-      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
-      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
-      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+    <dxi-item dataField="login" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Login', mode: 'login' }">
+      <dxi-validation-rule type="required" message="Login is required"></dxi-validation-rule>
+      <dxi-validation-rule type="login" message="Login is invalid"></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
@@ -36,7 +36,7 @@
 
     <dxi-item>
       <div class="login-link">
-        Have an account? <a routerLink="/login">Sign In</a>
+        Máte účet? <a routerLink="/login">Prihlásiť</a>
       </div>
     </dxi-item>
 
@@ -46,7 +46,7 @@
           <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
         </ng-container>
 
-        <ng-template #notLoading>Create a new account</ng-template>
+        <ng-template #notLoading>Vytvorit novy účet</ng-template>
       </span>
     </ng-container>
 

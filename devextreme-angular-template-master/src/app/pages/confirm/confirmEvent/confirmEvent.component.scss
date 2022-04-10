@@ -1,31 +1,23 @@
 .logos-container {
-  margin: 10px 0 20px 0;
+  margin: 5px;
   text-align: center;
   svg {
     display: inline-block;
   }
 }
 
+.dx-widget{
+  width: 100%;
+}
+
 .content-block {
   font-size: 20px;
 }
-//font-size: 30px;
-// .devextreme-logo {
-//   width: 200px;
-//   height: 34px;
-//   margin-bottom: 13px;
-// }
 
-// .angular-logo {
-//   width: 220px;
-//   height: 62px;
-// }
-
-// .plus {
-//   margin: 15px 10px;
-//   width: 22px;
-//   height: 22px;
-// }
+::ng-deep #data-grid-demo {
+  height: 100%;
+  width: 100%;
+}
 
 :host-context(.screen-x-small) .logos-container {
   svg {
@@ -33,3 +25,19 @@
     display: block;
   }
 }
+
+::ng-deep .options {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: rgba(191, 191, 191, 0.15);
+}
+
+::ng-deep .caption {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+::ng-deep .option {
+  margin-top: 10px;
+}
+

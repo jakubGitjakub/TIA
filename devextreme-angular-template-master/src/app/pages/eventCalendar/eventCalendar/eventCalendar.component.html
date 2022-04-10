@@ -1,0 +1,31 @@
+<h2 class="content-block">Nastavenie tiketov</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Event kalendar</h3>
+    </div>
+
+    <div class="dx-field">
+      <div class="dx-field-label" style="font-size: 20px;">Výber firmy</div>
+      <div class="dx-field-value">
+        <dx-select-box
+          [items]="companies"
+          placeholder="Vybraná firma"
+          [showClearButton]="true"
+          (onValueChanged)="onValueChanged($event)"
+        ></dx-select-box>
+      </div>
+    </div>
+
+    <dx-form id="form" style="margin: 10px;">
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="{text: 'Nastav tiket', onClick: handleSetTicket}">
+      </dxi-item>
+    </dx-form>
+
+
+
+
+</div>
+</div>

@@ -1,0 +1,54 @@
+<h2 class="content-block">Nastavenie tiketu</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Tiket</h3>
+    </div>
+    <dx-form id="form" [(formData)]="user">
+      <dxi-item itemType="group" [colCount]="2">
+        <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>
+              
+          <dxi-item dataField="title" caption="Titul"></dxi-item>
+          <dxi-item dataField="first_Name" caption="Meno">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="last_Name" caption="Priezvisko">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="login" caption="Login">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="email" caption="E-mail"></dxi-item>
+          <dxi-item 
+            [editorOptions]="{displayFormat:'dd/MM/yyyy'}"  
+            editorType="dxDateBox"  
+            dataField="birthdate" 
+            caption="Dátum narodenia"
+          ></dxi-item>
+          <dxi-item dataField="image_Path" caption="Link na fotku"></dxi-item>
+          <dxi-item dataField="note" caption="Osobný opis"></dxi-item>
+          <dxi-item dataField="phone_Number" caption="Mobil"></dxi-item>
+      </dxi-item>
+    </dx-form>
+
+    <!--ADRESA-->
+    <dx-form id="form" [(formData)]="user">
+      <dxi-item itemType="group" [colCount]="2">
+        <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>
+              
+          <dxi-item dataField="id_Addresses.city" caption="Mesto"></dxi-item>
+          <dxi-item dataField="id_Addresses.street" caption="Ulica"></dxi-item>
+          <dxi-item dataField="id_Addresses.house_Number" caption="Číslo domu"></dxi-item>
+          <dxi-item dataField="id_Addresses.country" caption="Štát"></dxi-item>
+          <dxi-item dataField="id_Addresses.zip_Code" caption="Zip kód"></dxi-item>
+      </dxi-item>
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="{text: 'Ulož', onClick: handleSave}">
+      </dxi-item>
+    </dx-form>
+
+  
+  </div>
+</div>
+

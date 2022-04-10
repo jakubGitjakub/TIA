@@ -25,14 +25,42 @@ namespace TodoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();           
+            return await _context.Users.Include(s => s.Id_Addresses).ToListAsync();
+        }
+
+        // GET: api/Users/logVerify
+        [HttpGet("logVerify/{login}/{password}")]
+        public async Task<ActionResult<Users>> GetUsersLogin(string login, string password)
+        {
+            var users = await _context.Users.Include(s => s.Id_Addresses).FirstOrDefaultAsync(i => i.Login == login);
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users;
+            //return await _context.Events.Include(s => s.Companies).Include(s => s.Tickets).Where(x => x.Verify_Status == true).ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Users>> GetUsers(long id)
         {
-            var users = await _context.Users.FindAsync(id);
+            var users = await _context.Users.Include(s => s.Id_Addresses).FirstOrDefaultAsync(i => i.Id == id);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+        
+        // GET: api/Users/confirm
+        [HttpGet("verify")]
+        public async Task<ActionResult<IEnumerable<Users>>> GetUsersByConfirm()
+        {
+            var users = await _context.Users.Where(x => x.Verify_Status == false).ToListAsync();
 
             if (users == null)
             {
@@ -61,7 +89,6 @@ namespace TodoApi.Controllers
             {
                 return BadRequest();
             }
-
             _context.Entry(users).State = EntityState.Modified;
 
             try

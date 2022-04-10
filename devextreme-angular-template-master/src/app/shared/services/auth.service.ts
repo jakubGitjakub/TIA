@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { User } from 'src/app/pages/users/users/users.component';
+import { UserService } from 'src/app/services/Users.Servis';
 
-const defaultPath = '/';
+const defaultPath = '/home';
 const defaultUser = {
   Login: '',
-  avatarUrl: '' //path to picture (https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png)
+  avatarUrl: ''
 };
 
 @Injectable()
@@ -21,14 +22,22 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private UsersService : UserService) { }
 
   async logIn(Login: string, Password: string) {
 
     try {
       // Send request
+      
+      this.UsersService.getUsersLogin(Login, Password).subscribe(s => {
+        this.user = s;
+      })
 
+      //this.router.navigate(['home']);
       this.router.navigate([this._lastAuthenticatedPath]);
+      window.location.reload();
+
       return {
         isOk: true,
         data: this.user
@@ -112,6 +121,7 @@ export class AuthService {
 
   async logOut() {
     this.user = null;
+    localStorage.setItem('ROLE', '');
     this.router.navigate(['/login-form']);
   }
 }
@@ -129,20 +139,20 @@ export class AuthGuardService implements CanActivate {
       'change-password/:recoveryCode'
     ].includes(route.routeConfig.path);
 
-    if (isLoggedIn && isAuthForm) {
+    if (isLoggedIn && isAuthForm) {     //ak je prihlaseny a schvaleny
       this.authService.lastAuthenticatedPath = defaultPath;
       this.router.navigate([defaultPath]);
       return false;
     }
 
-    if (!isLoggedIn && !isAuthForm) {
+    if (!isLoggedIn && !isAuthForm) {   //prihlaseny a neschvaleny
       this.router.navigate(['/login-form']);
     }
 
-    if (isLoggedIn) {
+    if (isLoggedIn) {  
       this.authService.lastAuthenticatedPath = route.routeConfig.path;
     }
 
-    return isLoggedIn || isAuthForm;
+    return isLoggedIn || isAuthForm;    //vrati stav prihlasenia a autentifikacie
   }
 }

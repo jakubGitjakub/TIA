@@ -1,5 +1,3 @@
-import { getAttrsForDirectiveMatching } from "@angular/compiler/src/render3/view/util";
-
 export const navigation = [
   {
     text: 'Predaj lístkov',

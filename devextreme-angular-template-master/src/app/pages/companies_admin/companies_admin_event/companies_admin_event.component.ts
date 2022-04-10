@@ -46,6 +46,7 @@ export class Companies_admin_eventComponent implements OnInit {
           //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
         });
       } else {
+        //inicializovat select box pre vyber firmy ku ktorej bude event priradeni
         this.newEvent = 1;
         this.eventService.getNextNumber().subscribe(num => {
           this.eventId = num;
@@ -79,6 +80,7 @@ export class Companies_admin_eventComponent implements OnInit {
       );
     }
     else{
+      //inicializovat zo select box pre ktoru firmu bude event priradeni
       this.eventService.add(this.event).subscribe(
         res => {
           if (res) {

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 
 export class HeaderComponent implements OnInit {
   @Output()
-  menuToggle = new EventEmitter<boolean>();
+  menuToggle = new EventEmitter<boolean>(); //nastavit menu
 
   @Input()
   menuToggleEnabled = false;
@@ -23,22 +23,24 @@ export class HeaderComponent implements OnInit {
   @Input()
   title: string;
 
-  user = { login: '' };
+
+  user = { login: localStorage.getItem("rola") };    //nastavim login prihlaseneho
 
   userMenuItems = [{
-    text: 'Profile',
-    icon: 'user',
-    onClick: () => {
-      this.router.navigate(['/profile']);
-    }
-  },
-  {
-    text: 'Logout',
+    text: 'Prihlásenie',        //osetrit striedanie prihlaseny / odhlaseny
     icon: 'runner',
     onClick: () => {
       this.authService.logOut();
     }
-  }];
+  },
+  // {
+  //   text: 'Logout',
+  //   icon: 'runner',
+  //   onClick: () => {
+  //     this.authService.logOut();
+  //   }
+  // }
+  ];
 
   constructor(private authService: AuthService, private router: Router) { }
 

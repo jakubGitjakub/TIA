@@ -1,0 +1,130 @@
+<h2 class="content-block">Profile</h2>
+
+<div class="content-block dx-card responsive-paddings">
+  <div class="form-avatar">
+    <dx-gallery
+        [dataSource]="galleryDataSource"
+        [selectedIndex]="1"
+        [showIndicator]="false">
+    </dx-gallery>
+  </div>
+  <span>{{user.note}}</span>
+</div>
+
+<div class="content-block dx-card responsive-paddings">
+  <dx-form id="form"
+    [formData]="dataSource"
+    labelLocation="top"
+    [colCountByScreen]="colCountByScreen"
+    > 
+    <dxi-item
+      dataField="title"
+      [label]="{text: 'Titul'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="first_Name"
+      [label]="{text: 'Meno'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="last_Name"
+      [label]="{text: 'Priezvisko'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="login"
+      [label]="{text: 'Login'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="role"
+      [label]="{text: 'Rola'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="email"
+      [label]="{text: 'E-mail'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="phone_Number"
+      [label]="{text: 'Mobil'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      [editorOptions]="{displayFormat:'dd/MM/yyyy'}"
+      editorType="dxDateBox"
+      dataField="birthdate"
+      [label]="{text: 'Dátum narodenia'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  }
+      }">
+    </dxi-item>
+  </dx-form> 
+
+  <h5 class="adresa">Adresa</h5>
+
+  <dx-form id="form"
+    [formData]="dataSource"
+    labelLocation="top"
+    [colCountByScreen]="colCountByScreen"
+    > 
+    <dxi-item
+      dataField="id_Addresses.city"
+      [label]="{text: 'Mesto'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="id_Addresses.street"
+      [label]="{text: 'Ulica'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="id_Addresses.house_Number"
+      [label]="{text: 'Číslo domu'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="id_Addresses.country"
+      [label]="{text: 'Štát'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+    <dxi-item
+      dataField="id_Addresses.zip_Code"
+      [label]="{text: 'Zip kód'}"
+      [editorOptions]="{ readOnly: true, 
+        inputAttr: {  'style': 'background-color: white'  } 
+      }">
+    </dxi-item>
+  </dx-form> 
+
+  <dx-form id="form2" style="margin: 10px;">
+    <dxi-item
+      itemType="button"
+      [buttonOptions]="{text: 'Uprav profil', onClick: handleEdit}">
+    </dxi-item>
+  </dx-form>
+</div>

@@ -46,6 +46,7 @@ export class Companies_admin_ticketComponent implements OnInit {
           //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
         });
       } else {
+        //inicializovat select box pre vyber eventu ku ktoremu bude ticket priradeni
         this.newTicket = 1;
         this.ticketService.getNextNumber().subscribe(num => {
           this.ticketId = num;
@@ -79,6 +80,7 @@ export class Companies_admin_ticketComponent implements OnInit {
       );
     }
     else{
+      //inicializovat zo select box pre ktory event bude ticket priradeni
       this.ticketService.add(this.ticket).subscribe(
         res => {
           if (res) {

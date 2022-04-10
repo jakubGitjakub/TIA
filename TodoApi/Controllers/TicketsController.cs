@@ -25,7 +25,7 @@ namespace TodoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tickets>>> GetTickets()
         {
-            return await _context.Tickets.ToListAsync();
+            return await _context.Tickets.Include(s => s.Events).ToListAsync();
         }
 
         // GET: api/Tickets/5
@@ -33,6 +33,35 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<Tickets>> GetTickets(long id)
         {
             var tickets = await _context.Tickets.FindAsync(id);
+
+            if (tickets == null)
+            {
+                return NotFound();
+            }
+
+            return tickets;
+        }
+
+        // GET: api/Tickets/Prvy
+        [HttpGet("name/{ticketName}")]     
+        public async Task<ActionResult<IEnumerable<Tickets>>> GetTicketByName(string ticketName)
+        {
+            var tickets = await _context.Tickets.Where(x => x.Name == ticketName).ToListAsync();
+
+            Console.WriteLine(tickets);
+            if (tickets == null)
+            {
+                return NotFound();
+            }
+
+            return tickets;
+        }
+
+        // GET: api/Tickets/user/1
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<Tickets>>> getTicketByUser(long id)
+        {
+            var tickets = await _context.Tickets.Include(s => s.Events).Where(x => x.User.Id == id).ToListAsync();
 
             if (tickets == null)
             {

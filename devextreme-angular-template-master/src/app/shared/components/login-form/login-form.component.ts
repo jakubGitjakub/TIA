@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
-import notify from 'devextreme/ui/notify';
+import { navigation } from 'src/app/app-navigation';
 import { AuthService } from '../../services';
 
 
@@ -16,9 +16,21 @@ export class LoginFormComponent {
   loading = false;
   formData: any = {};
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, 
+  private router: Router
+  ) { 
+
+  }
+
+  route: ActivatedRouteSnapshot;
 
   async onSubmit(e) {
+
+    const { login, password } = this.formData;    
+    localStorage.setItem('ROLE', login);        //z user.role dostat rolu pouzivatela 
+    
+
+    /*
     e.preventDefault();
     const { login, password } = this.formData;
     this.loading = true;
@@ -27,13 +39,14 @@ export class LoginFormComponent {
     if (!result.isOk) {
       this.loading = false;
       notify(result.message, 'error', 2000);
-    }
+    }*/
   }
 
   onCreateAccountClick = () => {
     this.router.navigate(['/create-account']);
   }
 }
+
 @NgModule({
   imports: [
     CommonModule,

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../pages/users/users/users.component';
+import { Address, User } from '../pages/users/users/users.component';
 
 @Injectable({
     providedIn: 'root'
@@ -10,44 +10,68 @@ export class UserService {
     /**
      *
      */
+    baseURL = environment.baseUrl;
+
     constructor(private http:HttpClient )  {
     }
 
     getUsers(): Observable<any>{
-        return this.http.get("https://localhost:7007/api/users");
+        return this.http.get(`${this.baseURL}/api/users`);
     }
 
     get(id: any): Observable<any>{
-        return this.http.get(`https://localhost:7007/api/users/${id}`);
+        return this.http.get(`${this.baseURL}/api/users/${id}`);
     }
 
     getAll(): Observable<any> {
-        return this.http.get<User[]>('https://localhost:7007/api/users/all');
+        return this.http.get<User[]>(`${this.baseURL}/api/users/all`);
     }
 
     getNextNumber(): Observable<number> {
-        return this.http.get<number>('https://localhost:7007/api/users/number');
+        return this.http.get<number>(`${this.baseURL}/api/users/number`);
     }
 
     getSelection(): Observable<number> {
-        return this.http.get<number>('https://localhost:7007/api/users/selection');
+        return this.http.get<number>(`${this.baseURL}/api/users/selection`);
     }
 
     getValidateNumber(number: any): Observable<number> {
-        return this.http.get<number>(`https://localhost:7007/api/users/validateNumber/?customerNumber=${number}`);
+        return this.http.get<number>(`${this.baseURL}/api/users/validateNumber/?customerNumber=${number}`);
     }
 
     save( id: any, user: User): Observable<any>{
-        return this.http.put<User>(`https://localhost:7007/api/users/${id}`,user);
+        return this.http.put<User>(`${this.baseURL}/api/users/${id}`,user);
     }
 
     delete(id: any): Observable<any>{
-        return this.http.delete(`https://localhost:7007/api/users/${id}`);
+        return this.http.delete(`${this.baseURL}/api/users/${id}`);
     }
 
     add(user: User): Observable<any>{
-        user.Password = "noveHeslo";
-        return this.http.post<User>(`https://localhost:7007/api/users`, user);
+        user.password = "noveHeslo";
+        return this.http.post<User>(`${this.baseURL}/api/users`, user);
+    }
+
+    GetUsersByConfirm(verify: string): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/users/${verify}`);
+    }
+
+    confirmUser( id: any, user: User): Observable<any>{
+        user.verify_Status = true;
+        return this.http.put<User>(`${this.baseURL}/api/users/${id}`,user);
+    }
+
+    saveAdress(id: any, address: Address): Observable<any>{
+        return this.http.put<Address>(`${this.baseURL}/api/address/${id}`,address);
+    }
+
+    getUsersLogin(login: string, password: string): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/users/logVerify/${login}/${password}`);
     }
     
 }
+
+export const environment = {
+    production: false,
+    baseUrl: 'https://localhost:7007'  
+};

@@ -15,7 +15,7 @@ export class Companies_adminComponent implements OnInit {
 
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxoPagingComponent) pager: DxoPagingComponent;
-  dataSource: CET[] = [];;
+  dataSource: CET[] = [];
   dataCompanies: Company[];
   dataEvents: Events[];
   dataTickets: Ticket[];
@@ -27,29 +27,36 @@ export class Companies_adminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    let model = { 'name': "", 'name_company': "", 'name_event': "", 'name_ticket': "" }
     this.CompanyServices.getCompanies().subscribe(s => {
       this.dataCompanies = s; 
-      console.log(s);
+      for (let i = 0; i < s.length; i++) {
+        if(s[i].events.length == 0){
+          model = {'name': "", 'name_company': s[i].name, 'name_event': "", 'name_ticket': ""}
+          this.dataSource.push(model);
+        }
+      }
     })
     this.EventServices.getEvents().subscribe(s => {
-      this.dataEvents = s;
-      console.log(s); 
+      this.dataEvents = s;       
+      for (let i = 0; i < s.length; i++) {    //prechadzam eventy
+        for(let x = 0; x < (s[i].companies.length); x++){
+          if(s[i].tickets.length == 0){
+            model = {'name': "", 'name_company': s[i].companies[x].name, 'name_event': s[i].name, 'name_ticket': ""}  
+            this.dataSource.push(model);
+          }
+          for(let z = 0; z < (s[i].tickets.length); z++){
+            model = {'name': s[i].tickets[z].name, 'name_company': s[i].companies[x].name, 'name_event': s[i].name, 'name_ticket': ""}
+            this.dataSource.push(model);
+          }
+        }
+      }
     })
     this.TicketServices.getTickets().subscribe(s => {
       this.dataTickets = s; 
-      console.log(s);
     })
-    //vytiahnut ID a zistit ich napojenie Companies - Events - Tickets
-
-    //nahadzat ich do dataSource
-    let model = { 'name': "jeden", 'name_company': "1", 'name_event': "2", 'name_ticket': "" }
-    this.dataSource.push(model);
-
-    //refresh
-    this.dataSource = [...this.dataSource];
-
   }
+
 
   handleEditCompany = (e): void => {
     const companyId = e.row.key;
@@ -146,13 +153,15 @@ export class Company{
 }
 
 export class Events{
-  id: number;
-  name: string;
-  start_date: Date;
-  end_date: Date;
-  status: string;
-  access: string;
-  user_id: number
+  Id: number;
+  Name: string;
+  Start_Date: Date;
+  End_Date: Date;
+  Status: string;
+  Access: string;
+  UsersId: number;
+  Verify_Status: boolean;
+  company_name: string;
 }
 
 export class Ticket{

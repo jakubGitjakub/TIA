@@ -25,7 +25,14 @@ namespace TodoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Events>>> GetEvents()
         {
-            return await _context.Events.ToListAsync();
+            return await _context.Events.Include(s => s.Companies).Include(s => s.Tickets).ToListAsync();
+        }
+
+        // GET: api/Events/verify
+        [HttpGet("verifyEvent/events")]
+        public async Task<ActionResult<IEnumerable<Events>>> GetEventsVerify()
+        {
+            return await _context.Events.Include(s => s.Companies).Include(s => s.Tickets).Where(x => x.Verify_Status == true).ToListAsync();
         }
 
         // GET: api/Events/5
@@ -33,6 +40,34 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<Events>> GetEvents(long id)
         {
             var events = await _context.Events.FindAsync(id);
+
+            if (events == null)
+            {
+                return NotFound();
+            }
+
+            return events;
+        }
+
+        // GET: api/Events/confirm
+        [HttpGet("verify")]
+        public async Task<ActionResult<IEnumerable<Events>>> GetEventsByConfirm()
+        {
+            var events = await _context.Events.Where(x => x.Verify_Status == false).ToListAsync();
+
+            if (events == null)
+            {
+                return NotFound();
+            }
+
+            return events;
+        }
+
+        // GET: api/Events/user/1
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<Events>>> GetEventsByUser(long id)
+        {
+            var events = await _context.Events.Include(s => s.Companies).Where(x => (x.Users.Id == id || x.Access == "Open") && (x.Verify_Status == true)).ToListAsync();
 
             if (events == null)
             {

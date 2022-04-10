@@ -64,18 +64,30 @@ export class UsersComponent implements OnInit{
 }
 
 export class User {
-  ID: number;
-  FirstName: string;
-  LastName: string;
-  Prefix: string;
-  Login: string;
-  Password: string;
-  Role: string;
-  Email: string;
-  BirthDate: string;
-  PhoneNumber: string;
-  Address: string;
-  PathUrl: string;
-  Notes: string;
+  id: number;
+  title: string;
+  first_Name: string;
+  last_Name: string;
+  prefix: string;
+  login: string;
+  password: string;
+  role: string;
+  email: string;
+  birthdate: Date;
+  phone_Number: string;
+  image_Path: string;
+  id_Addresses: number;
+  pathUrl: string;
+  note: string;
+  verify_Status: boolean;
+}
+
+export class Address {
+  id: number;
+  street: string;
+  house_Number: string;
+  city: string;
+  country: string;
+  zip_Code: string; 
 }
 

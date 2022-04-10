@@ -1,0 +1,61 @@
+<h2 class="content-block">Detail tiketu</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Tiket</h3>
+    </div>
+
+<dx-form id="form" [(formData)]="ticket">
+      <dxi-item itemType="group" [colCount]="2">
+        <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>
+        <dxi-item
+          dataField="name"
+          [label]="{text: 'Názov'}"
+          [editorOptions]="{ readOnly: true, 
+            inputAttr: {  'style': 'background-color: white'  } 
+          }">
+        </dxi-item>  
+        <dxi-item
+          [editorOptions]="{displayFormat:'dd/MM/yyyy'}"
+          editorType="dxDateBox"
+          dataField="start_Date"
+          [label]="{text: 'Začiatok platnosti'}"
+          [editorOptions]="{ readOnly: true, 
+            inputAttr: {  'style': 'background-color: white'  } 
+          }">
+        </dxi-item>
+        <dxi-item
+          [editorOptions]="{displayFormat:'dd/MM/yyyy'}"
+          editorType="dxDateBox"
+          dataField="end_Date"
+          [label]="{text: 'Koniec platnosti'}"
+          [editorOptions]="{ readOnly: true, 
+            inputAttr: {  'style': 'background-color: white'  } 
+          }">
+        </dxi-item>
+        <dxi-item
+          dataField="capacity"
+          [label]="{text: 'Kapacita'}"
+          [editorOptions]="{ readOnly: true, 
+            inputAttr: {  'style': 'background-color: white'  } 
+          }">
+        </dxi-item>
+        <dxi-item
+          dataField="additional_Info"
+          [label]="{text: 'Dodatočné informácie'}"
+          [editorOptions]="{ readOnly: true, 
+            inputAttr: {  'style': 'background-color: white'  } 
+          }">
+        </dxi-item>
+
+      </dxi-item>
+      <dxi-item
+        itemType="button"
+        [buttonOptions]="{text: 'Späť', onClick: handleBack}">
+      </dxi-item>
+</dx-form>
+
+
+</div>
+</div>
+

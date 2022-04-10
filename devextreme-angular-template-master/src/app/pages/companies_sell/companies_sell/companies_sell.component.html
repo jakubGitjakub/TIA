@@ -1,0 +1,35 @@
+<h2 class="content-block">Predaj tiketov</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Aktuálne tikety</h3>
+    </div>
+
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataSource"
+    [allowColumnReordering]="true"
+    [allowColumnResizing]="true"
+    [hoverStateEnabled]="true"
+    [showBorders]="true"
+  >
+
+  <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true"></dxo-editing>     
+
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="name_company" caption="Firma" [groupIndex]="0"></dxi-column>
+  <dxi-column dataField="name_event" caption="Event" [groupIndex]="1"></dxi-column>
+  <dxi-column dataField="name_ticket" caption="Tikety" [groupIndex]="2"></dxi-column>
+
+    <dxi-column type="buttons">
+      <dxi-button name="edit" text="Viac" icon="help" [onClick]="handleInfo"></dxi-button>
+      <dxi-button name="delete" text="Kupit" icon="cart" [onClick]="handleBuy"></dxi-button>
+    </dxi-column>  
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+  </dx-data-grid>
+
+
+</div>
+</div>

@@ -1,0 +1,156 @@
+<h2 class="content-block">Správa eventov a tiketov</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="logos-container">
+      <h3 class="content-title">Firmy & Eventy & Tikety</h3>
+    </div>
+
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataSource"
+    [allowColumnReordering]="true"
+    [allowColumnResizing]="true"
+    [hoverStateEnabled]="true"
+    [showBorders]="true"
+  >
+  <dxo-editing mode="row"></dxo-editing>     
+
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="name_company" caption="Firma" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="name_event" caption="Event" [groupIndex]="1"></dxi-column>
+    <dxi-column dataField="name_ticket" caption="Tikety" [groupIndex]="2"></dxi-column>
+ 
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+  </dx-data-grid>
+
+  <!--  *************************** FIRMY *********************** -->
+  <div class="logos-container">
+    <h3 class="content-title">Firmy</h3>
+  </div>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataCompanies"
+    keyExpr="id"
+    [allowColumnReordering]="true"
+    [allowColumnResizing]="true"
+    [hoverStateEnabled]="true"
+    [showBorders]="true"
+  >
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[5, 10, 20]"
+      [showNavigationButtons]="true">
+    </dxo-pager>
+    <dxo-editing mode="row"></dxo-editing>  
+
+    <dxi-column dataField="id" [width]="50"></dxi-column>
+    <dxi-column dataField="name" caption="Názov"></dxi-column>
+
+  </dx-data-grid>
+
+  <!-- *************************** Eventy *********************** -->
+  <div class="logos-container">
+    <h3 class="content-title">Eventy</h3>
+  </div>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataEventsAccess"
+    keyExpr="id"
+    [allowColumnReordering]="true"
+    [allowColumnResizing]="true"
+    [hoverStateEnabled]="true"
+    [showBorders]="true"
+  >
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[5, 10, 20]"
+      [showNavigationButtons]="true">
+    </dxo-pager>
+    <dxo-editing mode="row" 
+      [allowUpdating]="true">
+    </dxo-editing>  
+
+    <dxi-column dataField="id" [width]="50"></dxi-column>
+    <dxi-column dataField="name" caption="Názov"></dxi-column>
+    <dxi-column dataField="start_Date" 
+      caption="Začiatok platnosti" 
+      dataType="date" [format]="{ type: 'dd.MM.yyyy' }"
+    ></dxi-column>
+    <dxi-column dataField="end_Date" 
+      caption="Koniec platnosti"
+      dataType="date" [format]="{ type: 'dd.MM.yyyy' }"
+    ></dxi-column>
+    <dxi-column dataField="status" caption="Status"></dxi-column>
+    <dxi-column dataField="companies[0].name" caption="Nazov firmy"></dxi-column>
+    <dxi-column type="buttons">
+      <dxi-button name="edit" text="Upraviť" icon="edit" [onClick]="handleEditEvent"></dxi-button>
+    </dxi-column>
+
+  </dx-data-grid>
+  <dx-form id="form3" style="margin: 10px;">
+    <dxi-item
+      itemType="button"
+      [buttonOptions]="{text: 'Pridaj event', onClick: handleAddEvent}">
+    </dxi-item>
+  </dx-form>
+
+  <!-- *************************** Tikety *********************** -->
+  <div class="logos-container">
+    <h3 class="content-title">Tikety</h3>
+  </div>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataTicketsUser"
+    keyExpr="id"
+    [allowColumnReordering]="true"
+    [allowColumnResizing]="true"
+    [hoverStateEnabled]="true"
+    [showBorders]="true"
+  >
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[5, 10, 20]"
+    [showNavigationButtons]="true">
+  </dxo-pager>
+  <dxo-editing mode="row" 
+    [allowUpdating]="true" 
+    [allowDeleting]="true">
+  </dxo-editing>  
+
+  <dxi-column dataField="id" [width]="50"></dxi-column>
+  <dxi-column dataField="name" caption="Názov"></dxi-column>
+  <dxi-column dataField="start_Date" 
+    caption="Dátum začiatku"
+    dataType="date" [format]="{ type: 'dd.MM.yyyy' }"
+  ></dxi-column>
+  <dxi-column dataField="end_Date" 
+    caption="Dátum konca"
+    dataType="date" [format]="{ type: 'dd.MM.yyyy' }"
+  ></dxi-column>
+  <dxi-column dataField="capacity" caption="Kapacita"></dxi-column>
+  <dxi-column dataField="additional_Info" caption="Informácie"></dxi-column>
+  <dxi-column dataField="status" caption="Status"></dxi-column>
+  <dxi-column dataField="events[0].name" caption="Názov eventu"></dxi-column>
+  <dxi-column type="buttons">
+    <dxi-button name="edit" text="Upraviť" icon="edit" [onClick]="handleEditTicket"></dxi-button>
+    <dxi-button name="delete" text="Zmazať" icon="trash" [onClick]="deleteTicket"></dxi-button>
+  </dxi-column>
+
+  </dx-data-grid>
+  <dx-form id="form4" style="margin: 10px;">
+    <dxi-item
+      itemType="button"
+      [buttonOptions]="{text: 'Pridaj tiket', onClick: handleAddTicket}">
+    </dxi-item>
+  </dx-form>
+
+</div>
+</div>

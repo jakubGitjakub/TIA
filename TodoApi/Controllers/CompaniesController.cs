@@ -25,7 +25,7 @@ namespace TodoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Companies>>> GetCompanies()
         {
-            return await _context.Companies.ToListAsync();
+            return await _context.Companies.Include(s => s.Events).ToListAsync();
         }
 
         // GET: api/Companies/5

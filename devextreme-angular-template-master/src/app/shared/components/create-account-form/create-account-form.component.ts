@@ -20,10 +20,10 @@ export class CreateAccountFormComponent {
 
   async onSubmit(e) {
     e.preventDefault();
-    const { email, password } = this.formData;
+    const { login, password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.createAccount(email, password);
+    const result = await this.authService.createAccount(login, password);
     this.loading = false;
 
     if (result.isOk) {
