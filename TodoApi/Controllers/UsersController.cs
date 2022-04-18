@@ -85,12 +85,17 @@ namespace TodoApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers(long id, Users users)
         {
+
             if (id != users.Id)
             {
                 return BadRequest();
             }
-            _context.Entry(users).State = EntityState.Modified;
+            //osetrit ak nema danu adresu nastane eror
+            var address = await _context.Addresses.SingleOrDefaultAsync(s => s.Id == users.Id_Addresses.Id);
+            users.Id_Addresses = address;
 
+            _context.Entry(users).State = EntityState.Modified;
+            
             try
             {
                 await _context.SaveChangesAsync();

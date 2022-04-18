@@ -5,6 +5,7 @@ import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { EventService } from 'src/app/services/Event.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
+import { User } from '../../users/users/users.component';
 
 @Component({
   templateUrl: 'companies_admin.component.html',
@@ -38,7 +39,8 @@ export class Companies_adminComponent implements OnInit {
       }
     })
     this.EventServices.getEvents().subscribe(s => {
-      this.dataEvents = s;       
+      this.dataEvents = s;  
+      console.log(this.dataEvents);     
       for (let i = 0; i < s.length; i++) {    //prechadzam eventy
         for(let x = 0; x < (s[i].companies.length); x++){
           if(s[i].tickets.length == 0){
@@ -159,7 +161,7 @@ export class Events{
   End_Date: Date;
   Status: string;
   Access: string;
-  UsersId: number;
+  Users: User;
   Verify_Status: boolean;
   company_name: string;
 }
@@ -172,7 +174,20 @@ export class Ticket{
   capacity: number;
   add_info: string;
   status: string;
-  user_id: number;
+  user: User;
+}
+
+export class EventCalendar{
+  id: number;
+  startDate: Date;
+  endDate: Date;
+  capacity: number;
+  company: Company;
+  events: Events;
+  tickets: Ticket;
+  text: string;
+  allDay: boolean;
+  additional_Info: string;
 }
 
 

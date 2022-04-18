@@ -16,6 +16,7 @@ export class Users_detailComponent implements OnInit {
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxFormComponent) form: DxFormComponent;
   @Input() public user: User;
+  roles = [];
 
   constructor(
     private readonly router: Router,
@@ -31,6 +32,10 @@ export class Users_detailComponent implements OnInit {
   public newUser = 0;
   initialize(): void {
     this.user = new User;
+  
+    for(let i = 0; i < 3; i++){
+      this.roles.push(UsersRole[i]);
+    }
 
     this.activatedRoute.params.subscribe(params => {
       this.userId = null;
@@ -55,6 +60,10 @@ export class Users_detailComponent implements OnInit {
   public handleBack = () => {
     const navigationState = window.history.state || {};
     this.router.navigate(['users'], { state: navigationState });
+  };
+
+  onValueChanged (e) {
+    this.user.role = e.value;
   };
 
   public handleSave = () => {
@@ -92,6 +101,12 @@ export class Users_detailComponent implements OnInit {
     }
   }
 };
+
+enum UsersRole {
+  Customer = 0,
+  User = 1,
+  Admin = 2
+}
 
 
 

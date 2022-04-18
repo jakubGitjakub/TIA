@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jakub\\Desktop\\Project\\TIA\\TodoApi\\TodoApi.csproj": {}
+    "C:\\Users\\jakub\\Desktop\\TIA\\TiketProjekt\\TodoApi\\TodoApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jakub\\Desktop\\Project\\TIA\\TodoApi\\TodoApi.csproj": {
+    "C:\\Users\\jakub\\Desktop\\TIA\\TiketProjekt\\TodoApi\\TodoApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jakub\\Desktop\\Project\\TIA\\TodoApi\\TodoApi.csproj",
+        "projectUniqueName": "C:\\Users\\jakub\\Desktop\\TIA\\TiketProjekt\\TodoApi\\TodoApi.csproj",
         "projectName": "TodoApi",
-        "projectPath": "C:\\Users\\jakub\\Desktop\\Project\\TIA\\TodoApi\\TodoApi.csproj",
+        "projectPath": "C:\\Users\\jakub\\Desktop\\TIA\\TiketProjekt\\TodoApi\\TodoApi.csproj",
         "packagesPath": "C:\\Users\\jakub\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jakub\\Desktop\\Project\\TIA\\TodoApi\\obj\\",
+        "outputPath": "C:\\Users\\jakub\\Desktop\\TIA\\TiketProjekt\\TodoApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

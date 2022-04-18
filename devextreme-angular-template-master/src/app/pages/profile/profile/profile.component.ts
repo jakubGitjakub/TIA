@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   dataSource: User;
 
   galleryDataSource = [
-    "",
+    "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
   ];
 
   @Input() userId: number;
@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
     this.userService.get(this.userId).subscribe(
       user => {
         this.dataSource = user;
-        this.image = user.image_Path;
+        this.image = user.image_Path;   //osetrit ak tam nieje url
         this.user = user as User;
         this.galleryDataSource = [
           this.image
@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
     err => {
       //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
     });
-  };
+  }
 
   handleEdit = (e): void => {
     const userId = this.userId; //= this.user.id

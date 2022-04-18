@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tRgROClXYAI1uPXi3jrOXBrnrGG5sjKN3eBEdoTz64FP2NvPpDaYisXTsfQEPj3qiqVvRxjIQXP0xEm1BxDhvA==",
+  "dgSpecHash": "hKnBknkvxI1ihJx5kz1IieiBDQNn9dN+jhSzVxY8NVQmG08TvK9M1kl+SZQdEi2jqZN819j1kVlSSOUbsfQVXQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jakub\\Desktop\\Project\\TIA\\TodoApi\\TodoApi.csproj",
+  "projectFilePath": "C:\\Users\\jakub\\Desktop\\TIA\\TiketProjekt\\TodoApi\\TodoApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jakub\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\jakub\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

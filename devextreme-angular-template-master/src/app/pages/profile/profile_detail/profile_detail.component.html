@@ -8,26 +8,26 @@
       <dxi-item itemType="group" [colCount]="2">
         <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>
               
-          <dxi-item dataField="title" caption="Titul"></dxi-item>
-          <dxi-item dataField="first_Name" caption="Meno">
+          <dxi-item dataField="title" [label]="{text: 'Titul'}"></dxi-item>
+          <dxi-item dataField="first_Name" [label]="{text: 'Meno'}">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="last_Name" caption="Priezvisko">
+          <dxi-item dataField="last_Name" [label]="{text: 'Priezvisko'}">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="login" caption="Login">
+          <dxi-item dataField="login" [label]="{text: 'Login'}">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="email" caption="E-mail"></dxi-item>
+          <dxi-item dataField="email" [label]="{text: 'Email'}"></dxi-item>
           <dxi-item 
             [editorOptions]="{displayFormat:'dd/MM/yyyy'}"  
             editorType="dxDateBox"  
             dataField="birthdate" 
-            caption="Dátum narodenia"
+            [label]="{text: 'Dátum narodenia'}"
           ></dxi-item>
-          <dxi-item dataField="image_Path" caption="Link na fotku"></dxi-item>
-          <dxi-item dataField="note" caption="Osobný opis"></dxi-item>
-          <dxi-item dataField="phone_Number" caption="Mobil"></dxi-item>
+          <dxi-item dataField="image_Path" [label]="{text: 'Link na fotku'}"></dxi-item>
+          <dxi-item dataField="note" [label]="{text: 'Osobný opis'}"></dxi-item>
+          <dxi-item dataField="phone_Number" [label]="{text: 'Mobil'}"></dxi-item>
       </dxi-item>
     </dx-form>
 
@@ -36,11 +36,11 @@
       <dxi-item itemType="group" [colCount]="2">
         <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>
               
-          <dxi-item dataField="id_Addresses.city" caption="Mesto"></dxi-item>
-          <dxi-item dataField="id_Addresses.street" caption="Ulica"></dxi-item>
-          <dxi-item dataField="id_Addresses.house_Number" caption="Číslo domu"></dxi-item>
-          <dxi-item dataField="id_Addresses.country" caption="Štát"></dxi-item>
-          <dxi-item dataField="id_Addresses.zip_Code" caption="Zip kód"></dxi-item>
+          <dxi-item dataField="id_Addresses.city" [label]="{text: 'Mesto'}"></dxi-item>
+          <dxi-item dataField="id_Addresses.street" [label]="{text: 'Ulica'}"></dxi-item>
+          <dxi-item dataField="id_Addresses.house_Number" [label]="{text: 'Číslo domu'}"></dxi-item>
+          <dxi-item dataField="id_Addresses.country" [label]="{text: 'Štát'}"></dxi-item>
+          <dxi-item dataField="id_Addresses.zip_Code" [label]="{text: 'Zip kód'}"></dxi-item>
       </dxi-item>
       <dxi-item
         itemType="button"

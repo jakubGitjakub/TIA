@@ -17,11 +17,24 @@
           <dxi-item dataField="login" caption="Login">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="role" caption="Rola">
-            <dxi-validation-rule type="required"></dxi-validation-rule>
-          </dxi-item>
           <dxi-item dataField="email" caption="E-mail"></dxi-item>
       </dxi-item>
+    </dx-form>
+
+
+    <div class="dx-field">
+      <div class="dx-field-label" style="font-size: 20px; margin: 10px;">Výber role</div>
+        <div class="dx-field-value" style="margin: 15px;">
+        <dx-select-box
+                [items]="roles"
+                placeholder="Vybraná rola"
+                [showClearButton]="true"
+                (onValueChanged)="onValueChanged($event)"
+        ></dx-select-box>
+      </div>
+    </div>
+
+    <dx-form id="form" style="margin: 10px;">
       <dxi-item
         itemType="button"
         [buttonOptions]="{text: 'Ulož', onClick: handleSave}">

@@ -68,11 +68,11 @@ const routes: Routes = [
     component: Companies_sellComponent,
     children: [
       {
-        path: 'I'+':ticketName',
+        path: 'I'+':eventCalendarName',
         component: Company_sell_detailComponent,
       },
       {
-        path: 'B'+':ticketName',
+        path: 'B'+':eventCalendarName',
         component: Company_sell_buyComponent,
       }]
   },

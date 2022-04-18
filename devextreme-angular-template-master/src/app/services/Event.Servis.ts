@@ -49,8 +49,6 @@ export class EventService {
     }
 
     add(event: Events): Observable<any>{
-        event.UsersId = 1; //osetrit pridat ID prihlaseneho usera
-        //event.company_name - nastavit ID firmy
         return this.http.post<Event>(`${this.baseURL}/api/events`, event);
     }
 
@@ -70,5 +68,10 @@ export class EventService {
     getEventsVerify(): Observable<any>{
         return this.http.get(`${this.baseURL}/api/events/verifyEvent/events`);
     }
+
+    getEventByName(eventName: any): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/events/name/${eventName}`);
+    }
+
 
 }

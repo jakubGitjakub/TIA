@@ -13,7 +13,7 @@ import { ConfirmEventComponent } from './pages/confirm/confirmEvent/confirmEvent
 import { ConfirmUserComponent } from './pages/confirm/confirmUser/confirmUser.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { Users_detailComponent } from './pages/users/users_detail/users_detail.component';
-import { DxDataGridModule, DxDateBoxModule, DxFormModule, DxGalleryModule, DxSelectBoxModule, DxTextAreaModule } from 'devextreme-angular';
+import { DxDataGridModule, DxDateBoxModule, DxFormModule, DxGalleryModule, DxSchedulerModule, DxSelectBoxModule, DxTextAreaModule } from 'devextreme-angular';
 import { RouterModule, Routes } from '@angular/router';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Companies_adminComponent } from './pages/companies_admin/companies_admin/companies_admin.component';
@@ -71,11 +71,11 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'companies_sell/:ticketName/I',
+    path: 'companies_sell/:eventCalendarName/I',
     component: Company_sell_detailComponent,
   },
   {
-    path: 'companies_sell/:ticketName/B',
+    path: 'companies_sell/:eventCalendarName/B',
     component: Company_sell_buyComponent,
   },
   {
@@ -200,6 +200,7 @@ const routes: Routes = [
     DxTextAreaModule,
     DxDateBoxModule,
     DxGalleryModule,
+    DxSchedulerModule,
     RouterModule.forRoot(routes, { useHash: true })
   ],
   providers: [AuthService, ScreenService, AppInfoService],

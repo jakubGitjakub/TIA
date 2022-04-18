@@ -42,6 +42,16 @@ namespace TodoApi.Controllers
             return addresses;
         }
 
+        [HttpGet("number")]
+        public async Task<ActionResult<long>> GetNextNumber()
+        {
+            var address = await _context.Addresses.ToListAsync();
+            var id = address.Max(x => x.Id);
+            long number = 1;
+            number = id + 1;
+            return number;
+        }
+
         // PUT: api/Addresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

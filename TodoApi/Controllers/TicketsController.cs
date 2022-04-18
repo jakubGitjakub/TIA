@@ -48,7 +48,6 @@ namespace TodoApi.Controllers
         {
             var tickets = await _context.Tickets.Where(x => x.Name == ticketName).ToListAsync();
 
-            Console.WriteLine(tickets);
             if (tickets == null)
             {
                 return NotFound();
@@ -107,6 +106,9 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Tickets>> PostTickets(Tickets tickets)
         {
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == tickets.User.Id);
+            tickets.User = user;
             _context.Tickets.Add(tickets);
             await _context.SaveChangesAsync();
 

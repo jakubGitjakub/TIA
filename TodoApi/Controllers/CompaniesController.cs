@@ -52,6 +52,34 @@ namespace TodoApi.Controllers
             return number;
         }
 
+        // GET: api/Companies/Prva
+        [HttpGet("name/{companyName}")]
+        public async Task<ActionResult<IEnumerable<Companies>>> GetCompanyByName(string companyName)
+        {
+            var company = await _context.Companies.Include(s => s.Events).Where(x => x.Name == companyName).ToListAsync();
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return company;
+        }
+
+        // GET: api/Companies/Prva
+        [HttpGet("getCompany/{companyName}")]
+        public async Task<ActionResult<IEnumerable<Companies>>> GetCompanyByName2(string companyName)
+        {
+            var company = await _context.Companies.Where(x => x.Name == companyName).ToListAsync();
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return company;
+        }
+
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

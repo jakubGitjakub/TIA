@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
-import { Ticket } from '../../companies_admin/companies_admin/companies_admin.component';
+import { EventCalendar, Ticket } from '../../companies_admin/companies_admin/companies_admin.component';
 
 
 @Component({
@@ -13,19 +14,18 @@ import { Ticket } from '../../companies_admin/companies_admin/companies_admin.co
 
 export class Company_sell_buyComponent implements OnInit {
 
-  @Input() ticketName: string;
-  @Input() ticketId: number;
+  @Input() eventCalendarName: string;
+  @Input() public eventCalendar: EventCalendar;
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxFormComponent) form: DxFormComponent;
   @ViewChild(DxFormComponent) form1: DxFormComponent;
   @ViewChild(DxFormComponent) form2: DxFormComponent;
-  @Input() public ticket: Ticket;
   dataSource: BuyTicket[] = [];
-  formData: any = { min: 1, max: 10, value: 1 };    //nastavit max podla kapacity z event kalendaru
+  formData: any = { min: 1, max: 100, value: 1 };    //nastavit max podla kapacity z event kalendaru
 
   constructor(
     private readonly router: Router,
-    private readonly ticketService: TicketService,
+    private readonly eventCalendarService: EventCalendarService,
     private readonly activatedRoute: ActivatedRoute
     ) {  
   }
@@ -35,21 +35,23 @@ export class Company_sell_buyComponent implements OnInit {
   }
 
   initialize(): void {
-    this.ticket = new Ticket;
 
+    this.eventCalendar = new EventCalendar;
     this.activatedRoute.params.subscribe(params => {
-      this.ticketName = null;
-      if (params['ticketName']) {
-        this.ticketName = params['ticketName'];
-        this.ticketService.getTicketByName(this.ticketName).subscribe(
-          ticket => {
-            this.ticket = ticket[0] as Ticket;
-            this.formData.max= 3;    //set max capacity from event calendar
+      this.eventCalendarName = null;
+      if (params['eventCalendarName']) {
+        this.eventCalendarName = params['eventCalendarName'];
+        this.eventCalendarService.getEventCalendarByName(this.eventCalendarName).subscribe(
+          eventCalendar => {
+            this.eventCalendar = eventCalendar[0] as EventCalendar;
+            this.eventCalendar.additional_Info = eventCalendar[0].tickets['additional_Info'];
+            this.formData.max = this.eventCalendar.capacity;
         }, 
         err => {
           //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
         })}
-    })};
+    });
+  };
 
   public handleBack = () => {
     const navigationState = window.history.state || {};
@@ -67,7 +69,6 @@ export class Company_sell_buyComponent implements OnInit {
     //3.odoslat mail s tiketom
  
     this.handleBack();
-    
     /*
       this.userService.save(this.userId, this.user).subscribe(
         res => {

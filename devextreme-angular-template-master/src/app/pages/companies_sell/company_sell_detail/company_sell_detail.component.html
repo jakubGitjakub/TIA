@@ -5,12 +5,12 @@
       <h3 class="content-title">Tiket</h3>
     </div>
 
-<dx-form id="form" [(formData)]="ticket">
+<dx-form id="form" [(formData)]="eventCalendar">
       <dxi-item itemType="group" [colCount]="2">
         <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>
         <dxi-item
-          dataField="name"
-          [label]="{text: 'Názov'}"
+          dataField="text"
+          [label]="{text: 'Opis'}"
           [editorOptions]="{ readOnly: true, 
             inputAttr: {  'style': 'background-color: white'  } 
           }">
@@ -18,7 +18,7 @@
         <dxi-item
           [editorOptions]="{displayFormat:'dd/MM/yyyy'}"
           editorType="dxDateBox"
-          dataField="start_Date"
+          dataField="startDate"
           [label]="{text: 'Začiatok platnosti'}"
           [editorOptions]="{ readOnly: true, 
             inputAttr: {  'style': 'background-color: white'  } 
@@ -27,7 +27,7 @@
         <dxi-item
           [editorOptions]="{displayFormat:'dd/MM/yyyy'}"
           editorType="dxDateBox"
-          dataField="end_Date"
+          dataField="endDate"
           [label]="{text: 'Koniec platnosti'}"
           [editorOptions]="{ readOnly: true, 
             inputAttr: {  'style': 'background-color: white'  } 
@@ -40,14 +40,6 @@
             inputAttr: {  'style': 'background-color: white'  } 
           }">
         </dxi-item>
-        <dxi-item
-          dataField="additional_Info"
-          [label]="{text: 'Dodatočné informácie'}"
-          [editorOptions]="{ readOnly: true, 
-            inputAttr: {  'style': 'background-color: white'  } 
-          }">
-        </dxi-item>
-
       </dxi-item>
       <dxi-item
         itemType="button"

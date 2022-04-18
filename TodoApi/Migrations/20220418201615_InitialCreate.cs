@@ -87,8 +87,8 @@ namespace TodoApi.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Start_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     End_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Access = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Access = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Verify_Status = table.Column<bool>(type: "bit", nullable: false),
                     UsersId = table.Column<long>(type: "bigint", nullable: true)
                 },
@@ -145,6 +145,31 @@ namespace TodoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Start_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Capacity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Additional_Info = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CompaniesEvents",
                 columns: table => new
                 {
@@ -174,12 +199,14 @@ namespace TodoApi.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Start_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Capacity = table.Column<double>(type: "float", nullable: false),
-                    End_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CompanyId = table.Column<long>(type: "bigint", nullable: false),
-                    EventId = table.Column<long>(type: "bigint", nullable: false)
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Capacity = table.Column<double>(type: "float", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    allDay = table.Column<bool>(type: "bit", nullable: true),
+                    CompanyId = table.Column<long>(type: "bigint", nullable: true),
+                    EventsId = table.Column<long>(type: "bigint", nullable: true),
+                    TicketsId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,41 +218,15 @@ namespace TodoApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EventCalendar_Events_EventId",
-                        column: x => x.EventId,
+                        name: "FK_EventCalendar_Events_EventsId",
+                        column: x => x.EventsId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tickets",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Start_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    End_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Capacity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Additional_Info = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<long>(type: "bigint", nullable: true),
-                    EventCalendarId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tickets_EventCalendar_EventCalendarId",
-                        column: x => x.EventCalendarId,
-                        principalTable: "EventCalendar",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_EventCalendar_Tickets_TicketsId",
+                        column: x => x.TicketsId,
+                        principalTable: "Tickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -270,9 +271,14 @@ namespace TodoApi.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventCalendar_EventId",
+                name: "IX_EventCalendar_EventsId",
                 table: "EventCalendar",
-                column: "EventId");
+                column: "EventsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventCalendar_TicketsId",
+                table: "EventCalendar",
+                column: "TicketsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_UsersId",
@@ -295,11 +301,6 @@ namespace TodoApi.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_EventCalendarId",
-                table: "Tickets",
-                column: "EventCalendarId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_UserId",
                 table: "Tickets",
                 column: "UserId");
@@ -316,6 +317,9 @@ namespace TodoApi.Migrations
                 name: "CompaniesEvents");
 
             migrationBuilder.DropTable(
+                name: "EventCalendar");
+
+            migrationBuilder.DropTable(
                 name: "EventsTickets");
 
             migrationBuilder.DropTable(
@@ -325,13 +329,10 @@ namespace TodoApi.Migrations
                 name: "ShopingHistory");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
-
-            migrationBuilder.DropTable(
-                name: "EventCalendar");
-
-            migrationBuilder.DropTable(
                 name: "Events");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Users");

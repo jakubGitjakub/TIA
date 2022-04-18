@@ -49,7 +49,6 @@ export class TicketService {
     }
 
     add(ticket: Ticket): Observable<any>{
-        ticket.user_id = 1; //osetrit pridat ID prihlaseneho usera
         //ticket.event_name - nastavit ID eventu
         return this.http.post<Ticket>(`${this.baseURL}/api/tickets`, ticket);
     }

@@ -12,7 +12,7 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20220408135252_InitialCreate")]
+    [Migration("20220418201615_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,30 +112,37 @@ namespace TodoApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<double>("Capacity")
+                    b.Property<double?>("Capacity")
                         .HasColumnType("float");
 
-                    b.Property<long>("CompanyId")
+                    b.Property<long?>("CompanyId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("End_Date")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("EventId")
+                    b.Property<long?>("EventsId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("Start_Date")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Time")
-                        .IsRequired()
+                    b.Property<long?>("TicketsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool?>("allDay")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("text")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventsId");
+
+                    b.HasIndex("TicketsId");
 
                     b.ToTable("EventCalendar");
                 });
@@ -149,7 +156,6 @@ namespace TodoApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Access")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("End_Date")
@@ -163,7 +169,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("UsersId")
@@ -242,9 +247,6 @@ namespace TodoApi.Migrations
                     b.Property<DateTime>("End_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("EventCalendarId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,8 +261,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventCalendarId");
 
                     b.HasIndex("UserId");
 
@@ -369,18 +369,23 @@ namespace TodoApi.Migrations
                     b.HasOne("TodoApi.Models.Companies", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TodoApi.Models.Events", "Event")
+                    b.HasOne("TodoApi.Models.Events", "Events")
                         .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("EventsId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TodoApi.Models.Tickets", "Tickets")
+                        .WithMany()
+                        .HasForeignKey("TicketsId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Company");
 
-                    b.Navigation("Event");
+                    b.Navigation("Events");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("TodoApi.Models.Events", b =>
@@ -417,11 +422,6 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.Tickets", b =>
                 {
-                    b.HasOne("TodoApi.Models.EventCalendar", null)
-                        .WithMany("Tickets")
-                        .HasForeignKey("EventCalendarId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("TodoApi.Models.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -443,11 +443,6 @@ namespace TodoApi.Migrations
             modelBuilder.Entity("TodoApi.Models.Companies", b =>
                 {
                     b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("TodoApi.Models.EventCalendar", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("TodoApi.Models.Users", b =>

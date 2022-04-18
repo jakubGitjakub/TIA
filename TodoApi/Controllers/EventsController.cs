@@ -77,6 +77,20 @@ namespace TodoApi.Controllers
             return events;
         }
 
+        // GET: api/Events/Prvy
+        [HttpGet("name/{eventName}")]
+        public async Task<ActionResult<IEnumerable<Events>>> GetEventByName(string eventName)
+        {
+            var events = await _context.Events.Include(s => s.Tickets).Where(x => x.Name == eventName).ToListAsync();
+
+            if (events == null)
+            {
+                return NotFound();
+            }
+
+            return events;
+        }
+
         [HttpGet("number")]
         public async Task<ActionResult<long>> GetNextNumber()
         {
@@ -123,6 +137,9 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Events>> PostEvents(Events events)
         {
+            //var company = await _context.Companies.SingleOrDefaultAsync(s => s.Name == events.Companies[0].Name);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == events.Users.Id);
+            events.Users = user;
             _context.Events.Add(events);
             await _context.SaveChangesAsync();
 

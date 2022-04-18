@@ -1,8 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
-import { UserService } from 'src/app/services/Users.Servis';
-import { User } from '../../users/users/users.component';
+import { CompanyService } from 'src/app/services/Company.Servis';
+import { EventService } from 'src/app/services/Event.Servis';
+import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
+import { TicketService } from 'src/app/services/Ticket.Servis';
+import { Company, EventCalendar, Events, Ticket } from '../../companies_admin/companies_admin/companies_admin.component';
+
 
 
 @Component({
@@ -13,16 +17,50 @@ import { User } from '../../users/users/users.component';
 
 export class EventCalendar_addTicketComponent implements OnInit {
 
-  @Input() userId: number;
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxFormComponent) form: DxFormComponent;
-  @Input() public user: User;
+  @ViewChild(DxFormComponent) formControl: DxFormComponent;
+  dataSource: DATA[] = [];
+  dataStore: [];
+  saveData: DATA[] = [];
+  companies = [];
+  events = [];
+  tickets = [];
+  aktualCompany: string;
+  aktualEvent: string;
+  aktualTicket: string;
+  idCompany: number;
+  idEvent: number;
+  idTicket: number;
+  eventCalendar: EventCalendar[];
+  dataCompanies: Company[];
+  dataEvents: Events[];
+  dataTickets: Ticket[];
+  isShown: boolean = false;
+  isShownSave: boolean = false ;
+  isShownEvents: boolean = false ;
+  isShownTickets: boolean = false ;
+  colCountByScreen: object;
+  dateStart: Date;
+  dateEnd: Date;
+  @Input() public eventC: EventCalendar;
+  @Input() public eventCId: number;
+  aktualDate: Date;
 
   constructor(
-    private readonly router: Router,
-    private readonly userService: UserService,
-    private readonly activatedRoute: ActivatedRoute
-    ) {  
+    private CompanyServices: CompanyService,
+    private EventServices: EventService,
+    private TicketServices: TicketService,
+    private EventCalendarServices: EventCalendarService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
+    ) { 
+      this.colCountByScreen = {
+        xs: 1,
+        sm: 2,
+        md: 3,
+        lg: 3
+      }; 
   }
 
   ngOnInit(): void {
@@ -30,46 +68,133 @@ export class EventCalendar_addTicketComponent implements OnInit {
   }
 
   initialize(): void {
-    this.user = new User;
-
-    this.activatedRoute.params.subscribe(params => {
-      this.userId = null;
-      if (params['id']) {
-        this.userId = params['id'];
-        this.userService.get(this.userId).subscribe(
-          user => {
-            this.user = user as User;
-        }, 
-        err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
-        });
+    this.CompanyServices.getCompanies().subscribe(s => {
+      this.dataCompanies = s;
+      for(let i = 0; i < s.length; i++){
+        this.companies.push(s[i].name);
       }
-    })
+    });
+    this.EventCalendarServices.getNextNumber().subscribe(num => {
+      this.eventCId = num;
+    });
   };
+
+  onValueChanged (e) {
+    this.aktualCompany = e.value; //nazov firmy
+    this.events = [];
+    if(e.value == null){
+      this.isShownEvents = false;
+      this.isShownTickets = false;
+      this.isShownSave = false;
+      this.isShown = false;
+    }
+    else{
+      this.isShownEvents = true;
+      this.CompanyServices.getCompanyByName(this.aktualCompany).subscribe(s => {
+        this.idCompany = s[0].id;
+        this.dataCompanies = s; //s - vybrana company s[0].name = company name
+        for(let i = 0; i< s[0].events.length; i++){
+          this.events.push(s[0].events[i].name);
+        }
+      })
+    }
+  }
+
+  onValueChangedEvent(e){
+    this.aktualEvent = e.value; //nazov eventu
+    this.tickets = [];
+    if(e.value == null){
+      this.isShownTickets = false;
+      this.isShownSave = false;
+      this.isShown = false;
+    }
+    else{
+      this.isShownTickets = true;
+      this.EventServices.getEventByName(this.aktualEvent).subscribe(s => {
+        this.idEvent = s[0].id;
+        this.dataEvents = s; //s vybrany event   s[0].name =nazov , s[0].start_Date = zaciatok, s[0].end_Date
+        for(let i = 0; i< s[0].tickets.length; i++){
+          this.tickets.push(s[0].tickets[i].name);
+        }
+      })
+    }
+  }
+
+  onValueChangedTickets(e){
+    this.aktualTicket = e.value;  //nazov tiketu
+    if(e.value == null){
+      this.isShownSave = false;
+      this.isShown = false;
+    }
+    else{
+      this.isShownSave = true;
+      this.isShown = true;      
+      this.TicketServices.getTicketByName(this.aktualTicket).subscribe(s => {
+        this.idTicket = s[0].id;
+        this.dataTickets = s;//(s) - vybrany ticket s[0].name =nazov , s[0].start_Date = zaciatok, s[0].end_Date, s[0].capacity, s[0].additional_Info
+        console.log(s);
+      })
+    }
+  }
 
   public handleBack = () => {
     const navigationState = window.history.state || {};
-    this.router.navigate(['profile'], { state: navigationState });
+    this.router.navigate(['eventCalendar'], { state: navigationState });
   };
 
   public handleSave = () => {
-    if (!this.form.instance.validate().isValid) {
+    if (!this.formControl.instance.validate().isValid) {
       return;
     }
-    this.userService.save(this.userId, this.user).subscribe(
-      res => {
-        if (res) {
-          this.router.navigate([`/profile/${res.userId}`]);
-        }
-        //this.notifyService.success('user_has_been_saved_successfully');
-        this.handleBack();
-        },
-        err => {
-          //this.notifyService.error('failed_to_save_customer');
-        }
-      );
-  }
+    else{     
+      let model = { 
+        'text': this.dataSource['text'], 
+        'startDate': this.dateStart, 
+        'endDate': this.dateEnd, 
+        'allDay': false, 
+        'capacity': this.dataSource['capacity'], 
+        'companyId': this.idCompany
+      }
+      this.saveData.push(model);
+      this.eventC = new EventCalendar;
+      this.eventC.startDate = this.saveData[0].startDate;
+      this.eventC.endDate = this.saveData[0].endDate;
+      this.eventC.capacity = this.saveData[0].capacity;
+      this.eventC.text = this.saveData[0].text;
+      this.eventC.allDay = false;
+
+      //ulozenie do databazy
+      this.CompanyServices.get(this.idCompany).subscribe(s => {
+        this.eventC.company = s;  
+        this.EventServices.get(this.idEvent).subscribe(a => {
+          this.eventC.events = s;
+          this.TicketServices.get(this.idTicket).subscribe(b => {
+            this.eventC.tickets = s;
+            this.EventCalendarServices.add(this.eventC).subscribe(    //ulozenie
+            res => {
+              if(res){
+                this.router.navigate(['eventCalendar', this.eventCId]);
+              }
+              this.handleBack();
+            },
+            err => {
+              //this.notifyService.error('failed_to_add_customer');
+            });
+          });
+        });
+      });      
+    }
+  } 
 };
+
+export class DATA{
+  text: string;
+  startDate: Date;
+  endDate: Date;
+  allDay: boolean;
+  capacity: number;
+  companyId: number;
+}
 
 
 

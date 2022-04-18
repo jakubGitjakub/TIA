@@ -102,7 +102,7 @@
     ></dxi-column>
     <dxi-column dataField="status" caption="Status"></dxi-column>
     <dxi-column dataField="access" caption="Prístup"></dxi-column>
-    <dxi-column dataField="companies[0].name" caption="Nazov firmy"></dxi-column>
+
     <dxi-column type="buttons">
       <dxi-button name="edit" text="Upraviť" icon="edit" [onClick]="handleEditEvent"></dxi-button>
       <dxi-button name="delete" text="Zmazať" icon="trash" [onClick]="deleteEvent"></dxi-button>
@@ -154,7 +154,6 @@
   <dxi-column dataField="capacity" caption="Kapacita"></dxi-column>
   <dxi-column dataField="additional_Info" caption="Informácie"></dxi-column>
   <dxi-column dataField="status" caption="Status"></dxi-column>
-  <dxi-column dataField="events[0].name" caption="Názov eventu"></dxi-column>
   <dxi-column type="buttons">
     <dxi-button name="edit" text="Upraviť" icon="edit" [onClick]="handleEditTicket"></dxi-button>
     <dxi-button name="delete" text="Zmazať" icon="trash" [onClick]="deleteTicket"></dxi-button>

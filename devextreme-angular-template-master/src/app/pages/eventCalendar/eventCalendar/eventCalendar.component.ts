@@ -4,6 +4,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { EventService } from 'src/app/services/Event.Servis';
+import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
 import { Company } from '../../companies_admin/companies_admin/companies_admin.component';
 
@@ -16,16 +17,20 @@ import { Company } from '../../companies_admin/companies_admin/companies_admin.c
 export class EventCalendarComponent implements OnInit {
 
   companies = [];
+  aktualCompany: string;
+  idCompany: number;
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxoPagingComponent) pager: DxoPagingComponent;
   dataCompanies: Company[];
+  currentDate: Date = new Date();
+  eventCalendarData: EventCalendar[];
+  isShown: boolean = false ;
 
   constructor(private CompanyServices: CompanyService,
     private EventServices: EventService,
     private TicketServices: TicketService,
-    private readonly router: Router) {
-
-    }
+    private EventCalendarServices: EventCalendarService,
+    private readonly router: Router) {}
 
   ngOnInit(): void {
     this.CompanyServices.getCompanies().subscribe(s => {
@@ -37,24 +42,43 @@ export class EventCalendarComponent implements OnInit {
   }
 
   onValueChanged (e) {
-    console.log(e.value); //nazov firmy
+    this.aktualCompany = e.value; //nazov firmy
     if(e.value == null){
-      //skryt kalendar
+      this.isShown = false ;
     }
     else{
-      //get firmy z databazy podla e.value == companies.name
-      //get data eventCalendar podla Id firmy - tie nastavit do kalendaru
-      //zobrazit kalendar
+      this.isShown = true;
+      this.CompanyServices.getCompanyByName(this.aktualCompany).subscribe(s => {
+        this.idCompany = s[0].id;
+        this.EventCalendarServices.getByCompanyId(this.idCompany).subscribe(s =>{
+          this.eventCalendarData = s;
+        })
+      })
     }
+  }
 
-    
-
-}
+  handlePropertyChange(e) { //ak by som chcel nastavovat predaj rovno v kalendary
+    //  console.log(this.eventCalendarData[0].text);
+    //  console.log(this.eventCalendarData[0].startDate);
+    //  console.log(this.eventCalendarData[0].endDate);
+    //  console.log(this.eventCalendarData[0].allDay);
+  }
 
   handleSetTicket = (e): void => {
-    //get firmy z databazy
-    //get eventy podla id firmy
-    //get tikety podla id eventov 
-    //nastavenie noveho tiketu
+    this.CompanyServices.getCompanyByName(this.aktualCompany).subscribe(s => {
+      this.idCompany = s[0].id;
+      this.router.navigate(['eventCalendar', this.idCompany]);
+    })
   }
+
 }
+
+export class EventCalendar {
+  text: string;
+  startDate: Date;
+  endDate: Date;
+  allDay?: boolean;
+}
+
+
+

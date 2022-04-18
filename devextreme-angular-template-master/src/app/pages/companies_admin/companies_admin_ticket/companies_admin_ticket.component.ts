@@ -1,8 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import { EventService } from 'src/app/services/Event.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
-import { Ticket } from '../companies_admin/companies_admin.component';
+import { UserService } from 'src/app/services/Users.Servis';
+import { User } from '../../users/users/users.component';
+import { Events, Ticket } from '../companies_admin/companies_admin.component';
 
 
 @Component({
@@ -17,10 +20,16 @@ export class Companies_admin_ticketComponent implements OnInit {
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxFormComponent) form: DxFormComponent;
   @Input() public ticket: Ticket;
+  user: User;
+  events = [];
+  dataEvents: Events[];
+  aktualEvent: string;
 
   constructor(
     private readonly router: Router,
     private readonly ticketService: TicketService,
+    private readonly eventService: EventService,
+    private userService: UserService,
     private readonly activatedRoute: ActivatedRoute
     ) {  
   }
@@ -32,6 +41,13 @@ export class Companies_admin_ticketComponent implements OnInit {
   public newTicket = 0;
   initialize(): void {
     
+    this.eventService.getEvents().subscribe(s => {
+      this.dataEvents = s;
+      for(let i = 0; i < s.length; i++){
+        this.events.push(s[i].name);
+      }
+    });
+
     this.ticket = new Ticket;
 
     this.activatedRoute.params.subscribe(params => {
@@ -60,40 +76,49 @@ export class Companies_admin_ticketComponent implements OnInit {
     this.router.navigate(['companies_admin'], { state: navigationState });
   };
 
+  onValueChanged (e) {
+    this.aktualEvent = e.value; //nazov firmy
+    //this.event.company_name = e.value;
+  }
+
   public handleSave = () => {   
     if (!this.form.instance.validate().isValid) {
       return;
     }
-    if(this.newTicket == 0)
-    {
-      this.ticketService.save(this.ticketId, this.ticket).subscribe(
-        res => {
-          if (res) {
-            this.router.navigate([`/tickets/${res.ticketId}`]);
+    this.userService.get(1).subscribe(s => {  //dat id prihlaseneho
+      this.user = s;
+      this.ticket.user = this.user;
+      if(this.newTicket == 0)
+      {
+        this.ticketService.save(this.ticketId, this.ticket).subscribe(
+          res => {
+            if (res) {
+              this.router.navigate([`/tickets/${res.ticketId}`]);
+            }
+            //this.notifyService.success('user_has_been_saved_successfully');
+            this.handleBack();
+          },
+          err => {
+            //this.notifyService.error('failed_to_save_customer');
           }
-          //this.notifyService.success('user_has_been_saved_successfully');
-          this.handleBack();
-        },
-        err => {
-          //this.notifyService.error('failed_to_save_customer');
-        }
-      );
-    }
-    else{
-      //inicializovat zo select box pre ktory event bude ticket priradeni
-      this.ticketService.add(this.ticket).subscribe(
-        res => {
-          if (res) {
-            this.router.navigate([`/tickets/${res.ticketId}`]);
+        );
+      }
+      else{
+        //inicializovat zo select box pre ktory event bude ticket priradeni
+        this.ticketService.add(this.ticket).subscribe(
+          res => {
+            if (res) {
+              this.router.navigate([`/tickets/${res.ticketId}`]);
+            }
+            //this.notifyService.success('user_has_been_add_successfully');
+            this.handleBack();
+          },
+          err => {
+            //this.notifyService.error('failed_to_add_customer');
           }
-          //this.notifyService.success('user_has_been_add_successfully');
-          this.handleBack();
-        },
-        err => {
-          //this.notifyService.error('failed_to_add_customer');
-        }
-      );  
-    }
+        );  
+      }
+    });
   }
 };
 

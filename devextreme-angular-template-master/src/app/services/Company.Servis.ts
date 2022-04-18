@@ -52,5 +52,17 @@ export class CompanyService {
     add(company: Company): Observable<any>{
         return this.http.post<Company>(`${this.baseURL}/api/companies`, company);
     }
+
+    getCompanyByName(companyName: any): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/companies/name/${companyName}`);
+    }
+
+    getEventsByCompanyId( id: any): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/companies/company/${id}`);
+    }
+
+    getCompanyByName2(companyName: any): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/companies/getCompany/${companyName}`);
+    }
     
 }

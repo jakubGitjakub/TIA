@@ -6,8 +6,8 @@
     </div>
 
     <div class="dx-field">
-      <div class="dx-field-label" style="font-size: 20px;">Výber firmy</div>
-      <div class="dx-field-value">
+      <div class="dx-field-label" style="font-size: 20px; margin: 10px;">Výber firmy</div>
+      <div class="dx-field-value" style="margin: 15px;">
         <dx-select-box
           [items]="companies"
           placeholder="Vybraná firma"
@@ -17,7 +17,22 @@
       </div>
     </div>
 
-    <dx-form id="form" style="margin: 10px;">
+    <div class="calendar" *ngIf="isShown">
+      <dx-scheduler
+        timeZone="Europe/Berlin"
+        [dataSource]="eventCalendarData"
+        [views]="['week', 'month']"
+        currentView="week"
+        [currentDate]="currentDate"
+        [startDayHour]="7"
+        [endDayHour]="24"
+        [height]="600"
+        (onOptionChanged)="handlePropertyChange($event)"
+      >
+      </dx-scheduler>
+    </div>
+
+    <dx-form id="form" style="margin: 10px;" *ngIf="isShown">
       <dxi-item
         itemType="button"
         [buttonOptions]="{text: 'Nastav tiket', onClick: handleSetTicket}">

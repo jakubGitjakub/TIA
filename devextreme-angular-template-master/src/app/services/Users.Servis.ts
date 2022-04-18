@@ -73,7 +73,7 @@ export class UserService {
 
 export const environment = {
     production: false,
-    baseUrl: 'http://jakubtest.westeurope.cloudapp.azure.com'  
+    baseUrl: 'https://localhost:7007'  
     //http://jakubtest.westeurope.cloudapp.azure.com/
     //https://localhost:7007
 };
