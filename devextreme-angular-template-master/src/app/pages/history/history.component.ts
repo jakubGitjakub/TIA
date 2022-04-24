@@ -4,6 +4,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
 import { HistoryService } from 'src/app/services/History.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
+import { User } from '../users/users/users.component';
 
 @Component({
   selector: 'pages-history',
@@ -15,7 +16,7 @@ export class HistoryComponent implements OnInit {
   
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxoPagingComponent) pager: DxoPagingComponent;
-  dataSource: History[];
+  dataSource: ShopingHistories[];
   
   
   constructor(private historyService: HistoryService, 
@@ -27,16 +28,16 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.historyService.getHistory().subscribe(s => {
-      this.dataSource = s;
+      this.dataSource = s;  //getHistory podľa id_prihlaseneho
     })
   }
 
 }
 
-export class History {
+export class ShopingHistories {
   id: number;
   date: Date;
   ticket: string;
   count_Ticket: string;
-
+  user: User;
 }

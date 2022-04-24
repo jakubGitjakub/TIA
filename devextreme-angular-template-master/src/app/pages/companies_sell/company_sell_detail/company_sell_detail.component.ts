@@ -2,7 +2,6 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
 import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
-import { TicketService } from 'src/app/services/Ticket.Servis';
 import { EventCalendar } from '../../companies_admin/companies_admin/companies_admin.component';
 
 
@@ -39,7 +38,6 @@ export class Company_sell_detailComponent implements OnInit {
         this.eventCalendarName = params['eventCalendarName'];
         this.eventCalendarService.getEventCalendarByName(this.eventCalendarName).subscribe(
           eventCalendar => {
-            console.log(eventCalendar);
             this.eventCalendar = eventCalendar[0] as EventCalendar;
         }, 
         err => {

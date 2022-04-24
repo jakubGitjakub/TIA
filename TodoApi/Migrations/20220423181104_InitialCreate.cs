@@ -128,10 +128,10 @@ namespace TodoApi.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Ticket = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Count_Ticket = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<long>(type: "bigint", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Ticket = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Count_Ticket = table.Column<int>(type: "int", nullable: true),
+                    UsersId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {

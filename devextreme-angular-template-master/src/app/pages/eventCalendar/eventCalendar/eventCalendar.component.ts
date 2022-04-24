@@ -3,9 +3,7 @@ import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
 import { CompanyService } from 'src/app/services/Company.Servis';
-import { EventService } from 'src/app/services/Event.Servis';
 import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
-import { TicketService } from 'src/app/services/Ticket.Servis';
 import { Company } from '../../companies_admin/companies_admin/companies_admin.component';
 
 
@@ -27,8 +25,6 @@ export class EventCalendarComponent implements OnInit {
   isShown: boolean = false ;
 
   constructor(private CompanyServices: CompanyService,
-    private EventServices: EventService,
-    private TicketServices: TicketService,
     private EventCalendarServices: EventCalendarService,
     private readonly router: Router) {}
 
@@ -58,10 +54,6 @@ export class EventCalendarComponent implements OnInit {
   }
 
   handlePropertyChange(e) { //ak by som chcel nastavovat predaj rovno v kalendary
-    //  console.log(this.eventCalendarData[0].text);
-    //  console.log(this.eventCalendarData[0].startDate);
-    //  console.log(this.eventCalendarData[0].endDate);
-    //  console.log(this.eventCalendarData[0].allDay);
   }
 
   handleSetTicket = (e): void => {

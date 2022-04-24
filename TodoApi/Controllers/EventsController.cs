@@ -137,10 +137,20 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Events>> PostEvents(Events events)
         {
-            //var company = await _context.Companies.SingleOrDefaultAsync(s => s.Name == events.Companies[0].Name);
+            //company ku ktorej sa viaze event
+            var company = await _context.Companies.Include(s => s.Events).SingleOrDefaultAsync(s => s.Name == events.Companies[0].Name);
+
+            if (company == null)
+            { 
+                company = new Companies(); 
+            }
+
+            company.Events.Add(events);
+            events.Companies = null;
+            
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == events.Users.Id);
             events.Users = user;
-            _context.Events.Add(events);
+            
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEvents", new { id = events.Id }, events);

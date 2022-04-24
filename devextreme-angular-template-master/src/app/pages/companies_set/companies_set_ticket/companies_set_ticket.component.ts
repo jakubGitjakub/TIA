@@ -62,7 +62,7 @@ export class Companies_set_ticketComponent implements OnInit {
 
   public handleBack = () => {
     const navigationState = window.history.state || {};
-    this.router.navigate(['companies_admin'], { state: navigationState });
+    this.router.navigate(['companies_set'], { state: navigationState });
   };
 
   public handleSave = () => {   

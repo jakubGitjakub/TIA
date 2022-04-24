@@ -62,7 +62,6 @@ export class Companies_admin_eventComponent implements OnInit {
           //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
         });
       } else {
-        //inicializovat select box pre vyber firmy ku ktorej bude event priradeni
         this.newEvent = 1;
         this.eventService.getNextNumber().subscribe(num => {
           this.eventId = num;
@@ -78,7 +77,6 @@ export class Companies_admin_eventComponent implements OnInit {
 
   onValueChanged (e) {
     this.aktualCompany = e.value; //nazov firmy
-    //this.event.company_name = e.value;
   }
 
   public handleSave = () => {
@@ -105,19 +103,21 @@ export class Companies_admin_eventComponent implements OnInit {
         );
       }
       else{
-        //inicializovat zo select box pre ktoru firmu bude event priradeni
-        this.eventService.add(this.event).subscribe(
-          res => {
-            if (res) {
-              this.router.navigate([`/events/${res.eventId}`]);
+        this.CompanyServices.getCompanyByName(this.aktualCompany).subscribe(s => {
+          this.event.Companies = s;
+          this.eventService.add(this.event).subscribe(
+            res => {
+              if (res) {
+                this.router.navigate([`/events/${res.eventId}`]);
+              }
+              //this.notifyService.success('user_has_been_add_successfully');
+              this.handleBack();
+            },
+            err => {
+              //this.notifyService.error('failed_to_add_customer');
             }
-            //this.notifyService.success('user_has_been_add_successfully');
-            this.handleBack();
-          },
-          err => {
-            //this.notifyService.error('failed_to_add_customer');
-          }
-        );  
+          );
+        })
       }
     })
   }

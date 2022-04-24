@@ -12,7 +12,7 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20220418201615_InitialCreate")]
+    [Migration("20220423181104_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -210,17 +210,16 @@ namespace TodoApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Count_Ticket")
+                    b.Property<int?>("Count_Ticket")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Ticket")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UsersId")
+                    b.Property<long?>("UsersId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -414,8 +413,7 @@ namespace TodoApi.Migrations
                     b.HasOne("TodoApi.Models.Users", "Users")
                         .WithMany("ShopingHistory")
                         .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Users");
                 });

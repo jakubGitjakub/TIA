@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Company, EventCalendar } from '../pages/companies_admin/companies_admin/companies_admin.component';
-import { DATA } from '../pages/eventCalendar/eventCalendar_addTicket/eventCalendar_addTicket.component';
+import { EventCalendar } from '../pages/companies_admin/companies_admin/companies_admin.component';
 import { environment } from './Users.Servis';
 
 

@@ -92,7 +92,7 @@ export class EventCalendar_addTicketComponent implements OnInit {
       this.isShownEvents = true;
       this.CompanyServices.getCompanyByName(this.aktualCompany).subscribe(s => {
         this.idCompany = s[0].id;
-        this.dataCompanies = s; //s - vybrana company s[0].name = company name
+        this.dataCompanies = s; //s - vybrana company
         for(let i = 0; i< s[0].events.length; i++){
           this.events.push(s[0].events[i].name);
         }
@@ -112,7 +112,7 @@ export class EventCalendar_addTicketComponent implements OnInit {
       this.isShownTickets = true;
       this.EventServices.getEventByName(this.aktualEvent).subscribe(s => {
         this.idEvent = s[0].id;
-        this.dataEvents = s; //s vybrany event   s[0].name =nazov , s[0].start_Date = zaciatok, s[0].end_Date
+        this.dataEvents = s; //s vybrany event 
         for(let i = 0; i< s[0].tickets.length; i++){
           this.tickets.push(s[0].tickets[i].name);
         }
@@ -126,13 +126,12 @@ export class EventCalendar_addTicketComponent implements OnInit {
       this.isShownSave = false;
       this.isShown = false;
     }
-    else{
-      this.isShownSave = true;
-      this.isShown = true;      
+    else{    
       this.TicketServices.getTicketByName(this.aktualTicket).subscribe(s => {
         this.idTicket = s[0].id;
-        this.dataTickets = s;//(s) - vybrany ticket s[0].name =nazov , s[0].start_Date = zaciatok, s[0].end_Date, s[0].capacity, s[0].additional_Info
-        console.log(s);
+        this.dataTickets = s; //(s) - vybrany ticket
+        this.isShownSave = true;
+        this.isShown = true; 
       })
     }
   }
@@ -173,7 +172,7 @@ export class EventCalendar_addTicketComponent implements OnInit {
             this.EventCalendarServices.add(this.eventC).subscribe(    //ulozenie
             res => {
               if(res){
-                this.router.navigate(['eventCalendar', this.eventCId]);
+                this.router.navigate(['eventCalendar']);
               }
               this.handleBack();
             },

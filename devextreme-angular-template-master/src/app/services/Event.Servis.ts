@@ -48,7 +48,7 @@ export class EventService {
         return this.http.delete(`${this.baseURL}/api/events/${id}`);
     }
 
-    add(event: Events): Observable<any>{
+    add(event: Events): Observable<any>{   
         return this.http.post<Event>(`${this.baseURL}/api/events`, event);
     }
 

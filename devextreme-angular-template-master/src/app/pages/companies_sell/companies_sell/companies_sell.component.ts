@@ -2,10 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
-import { CompanyService } from 'src/app/services/Company.Servis';
-import { EventService } from 'src/app/services/Event.Servis';
 import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
-import { TicketService } from 'src/app/services/Ticket.Servis';
 import { CET, Company, EventCalendar, Events, Ticket } from '../../companies_admin/companies_admin/companies_admin.component';
 
 @Component({
@@ -23,10 +20,7 @@ export class Companies_sellComponent implements OnInit {
   dataTickets: Ticket[];
   dataEventCalendar: EventCalendar[];
 
-  constructor(private CompanyServices: CompanyService,
-    private EventServices: EventService,
-    private TicketServices: TicketService,
-    private EventCalendarServis: EventCalendarService,
+  constructor( private EventCalendarServis: EventCalendarService,
     private readonly router: Router) {
   }
 

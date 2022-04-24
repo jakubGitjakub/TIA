@@ -60,6 +60,18 @@
       </dxi-item>
     </dx-form>
 
+    <div class="dx-field">
+      <div class="dx-field-label" style="font-size: 20px; margin: 10px;">Spôsob platby</div>
+      <div class="dx-field-value" style="margin: 15px;">
+        <dx-select-box
+          [items]="payment"
+          placeholder="Vybraný typ"
+          [showClearButton]="true"
+          (onValueChanged)="onValueChanged($event)"
+        ></dx-select-box>
+      </div>
+    </div>
+
     <dx-form id="form2" [(formData)]="dataSource" validationGroup="formData">
       <dxi-item itemType="group" [colCount]="2">
         <dxo-col-count-by-screen [xs]="1" [sm]="2" [md]="2" [lg]="3"></dxo-col-count-by-screen>

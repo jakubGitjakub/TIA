@@ -106,10 +106,19 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Tickets>> PostTickets(Tickets tickets)
         {
+            var eve = await _context.Events.Include(s => s.Tickets).SingleOrDefaultAsync(s => s.Name == tickets.Events[0].Name);
+
+            if (eve == null)
+            {
+                eve = new Events();
+            }
+
+            eve.Tickets.Add(tickets);
+            tickets.Events = null;
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == tickets.User.Id);
             tickets.User = user;
-            _context.Tickets.Add(tickets);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTickets", new { id = tickets.Id }, tickets);

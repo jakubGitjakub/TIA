@@ -25,7 +25,7 @@ namespace TodoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShopingHistory>>> GetShopingHistory()
         {
-            return await _context.ShopingHistory.ToListAsync();
+            return await _context.ShopingHistory.Include(s => s.Users).ToListAsync();
         }
 
         // GET: api/ShopingHistories/5
@@ -78,6 +78,10 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<ShopingHistory>> PostShopingHistory(ShopingHistory shopingHistory)
         {
+            Console.WriteLine(shopingHistory.Users);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == 1);
+            shopingHistory.Users = user;
+
             _context.ShopingHistory.Add(shopingHistory);
             await _context.SaveChangesAsync();
 

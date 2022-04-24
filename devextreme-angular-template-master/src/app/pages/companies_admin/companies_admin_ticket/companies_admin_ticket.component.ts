@@ -104,21 +104,23 @@ export class Companies_admin_ticketComponent implements OnInit {
         );
       }
       else{
-        //inicializovat zo select box pre ktory event bude ticket priradeni
-        this.ticketService.add(this.ticket).subscribe(
-          res => {
-            if (res) {
-              this.router.navigate([`/tickets/${res.ticketId}`]);
+        this.eventService.getEventByName(this.aktualEvent).subscribe(s => {
+          this.ticket.Events = s;
+          this.ticketService.add(this.ticket).subscribe(
+            res => {
+              if (res) {
+                this.router.navigate([`/tickets/${res.ticketId}`]);
+              }
+              //this.notifyService.success('user_has_been_add_successfully');
+              this.handleBack();
+            },
+            err => {
+              //this.notifyService.error('failed_to_add_customer');
             }
-            //this.notifyService.success('user_has_been_add_successfully');
-            this.handleBack();
-          },
-          err => {
-            //this.notifyService.error('failed_to_add_customer');
-          }
-        );  
+          );  
+        })
       }
-    });
+    })
   }
 };
 
