@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
@@ -12,11 +12,17 @@ import { AuthService } from '../../services';
   templateUrl: './create-account-form.component.html',
   styleUrls: ['./create-account-form.component.scss']
 })
-export class CreateAccountFormComponent {
+export class CreateAccountFormComponent implements OnInit {
   loading = false;
   formData: any = {};
+  rols : any = {"User":"U","Customer":"C"}
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { 
+  }
+
+  ngOnInit(): void {
+    this.formData.roles = this.rols;
+  }
 
   async onSubmit(e) {
     e.preventDefault();
@@ -36,6 +42,8 @@ export class CreateAccountFormComponent {
   confirmPassword = (e: { value: string }) => {
     return e.value === this.formData.password;
   }
+
+
 }
 @NgModule({
   imports: [
@@ -48,3 +56,4 @@ export class CreateAccountFormComponent {
   exports: [ CreateAccountFormComponent ]
 })
 export class CreateAccountFormModule { }
+

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
+import notify from 'devextreme/ui/notify';
 import { UserService } from 'src/app/services/Users.Servis';
 
 @Component({
@@ -48,10 +49,9 @@ export class UsersComponent implements OnInit{
             this.router.navigate(['users']);
           }
           window.location.reload();
-          //this.notifyService.success('user_has_been_delete_successfully');
         },
         err => {
-          //this.notifyService.error('failed_to_delete_customer');
+          notify("Chyba pri odstránení používateľa", "warning", 500);
         }
       );
     }

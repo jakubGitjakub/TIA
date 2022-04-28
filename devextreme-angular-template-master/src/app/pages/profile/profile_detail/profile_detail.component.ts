@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
 import { AddressService } from 'src/app/services/Address.Servis';
 import { UserService } from 'src/app/services/Users.Servis';
 import { Address, User } from '../../users/users/users.component';
@@ -44,7 +45,7 @@ export class Profile_detailComponent implements OnInit {
             this.user = user as User;
         }, 
         err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+          notify("Chyba pri získaní používateľa", "warning", 500);
         });
       }
     })
@@ -81,18 +82,16 @@ export class Profile_detailComponent implements OnInit {
                   if (res) {
                     this.router.navigate([`/profile/${res.userId}`]);
                   }
-                  //this.notifyService.success('user_has_been_saved_successfully');
                   this.handleBack();
                   },
                   err => {
-                    //this.notifyService.error('failed_to_save_customer');
+                    notify("Chyba pri uložení používateľa", "warning", 500);
                   });
             })
           }
-          //this.notifyService.success('user_has_been_add_successfully');
         },
         err => {
-          //this.notifyService.error('failed_to_add_customer');
+          notify("Chyba pri pridaní adresy", "warning", 500);
         });
     });
   }

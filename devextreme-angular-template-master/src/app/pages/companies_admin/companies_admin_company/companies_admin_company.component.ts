@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { Company } from '../companies_admin/companies_admin.component';
 
@@ -43,7 +44,7 @@ export class Companies_admin_companyComponent implements OnInit {
             this.company = company as Company;
         }, 
         err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+          notify("Chyba pri vyhladaní firmy", "warning", 500);
         });
       } else {
         this.newCompany = 1;
@@ -71,11 +72,10 @@ export class Companies_admin_companyComponent implements OnInit {
           if (res) {
             this.router.navigate([`/companies/${res.companyId}`]);
           }
-          //this.notifyService.success('user_has_been_saved_successfully');
           this.handleBack();
         },
         err => {
-          //this.notifyService.error('failed_to_save_customer');
+          notify("Chyba pri uložení firmy", "warning", 500);
         }
       );
     }
@@ -85,11 +85,10 @@ export class Companies_admin_companyComponent implements OnInit {
           if (res) {
             this.router.navigate([`/companies/${res.companyId}`]);
           }
-          //this.notifyService.success('user_has_been_add_successfully');
           this.handleBack();
         },
         err => {
-          //this.notifyService.error('failed_to_add_customer');
+          notify("Chyba pri vytvorení firmy", "warning", 500);
         }
       );  
     }

@@ -1,49 +1,50 @@
 export const navigation = [
   {
+    text: 'Úvod',             //uvodna stranka pre vsetkych
+    path: '/home',
+    icon: 'home',
+    role: ["noAuth",""]
+  },
+  {
     text: 'Predaj lístkov',
     path: '/companies_sell',    //predaj ticketov v danom evente a podniku
     icon: 'money',
-    role: "customer"
+    role: ["Customer", "noAuth"]
   },
   {
     text: 'Nastavenie lístkov',
     path: '/companies_set',     //nastavenie eventu / ticketu do daneho podniku
     icon: 'columnchooser',
-    role: 'user',
+    role: ['User'],
   },
   {
     text: 'Firmy Eventy Tikety',
     path: '/companies_admin',     //nastavenie podniku / eventu / tiketu - Admin
     icon: 'columnchooser',
-    role: 'admin',
+    role: ['Admin'],
   },
   {
     text: 'Používatelia',              //zoznam použivatelov
     path: '/users',
     icon: 'group',
-    role: "admin"
-  },
-  {
-    text: 'Úvod',             //uvodna stranka pre vsetkych
-    path: '/home',
-    icon: 'home',
+    role: ["Admin"]
   },
   {
     text: 'Event kalendar',  //event kalendar s nastaveniami
     path: '/eventCalendar',
     icon: 'event',
-    role: "user"
+    role: ["User"]
   },
   {
     text: 'História nákupov',        //historia nakupov
     path: '/history',
     icon: 'clock',
-    role: "customer"
+    role: ["Customer"]
   },
   {
     text: 'Schválenie',      //zoznam pouzivatelov a eventov cakajuci na schvalenie
     icon: 'check',
-    role: "admin",
+    role: ["Admin"],
     items: [
       {
         text: 'Používatelia',
@@ -58,6 +59,7 @@ export const navigation = [
   {
     text: 'Nastavenie',     //profil a zmena hesla pre každého
     icon: 'preferences',
+    role: [""],
     items: [
       {
         text: 'Profil',

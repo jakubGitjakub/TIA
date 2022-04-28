@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
+import notify from 'devextreme/ui/notify';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { EventService } from 'src/app/services/Event.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
@@ -82,10 +83,9 @@ export class Companies_adminComponent implements OnInit {
             this.router.navigate(['companies_admin']);
           }
           window.location.reload();
-          //this.notifyService.success('user_has_been_delete_successfully');
         },
         err => {
-          //this.notifyService.error('failed_to_delete_customer');
+          notify("Chyba pri odstránení firmy", "warning", 500);
         }
       );
     }
@@ -101,10 +101,9 @@ export class Companies_adminComponent implements OnInit {
             this.router.navigate(['companies_admin']);
           }
           window.location.reload();
-          //this.notifyService.success('user_has_been_delete_successfully');
         },
         err => {
-          //this.notifyService.error('failed_to_delete_customer');
+          notify("Chyba pri odstránení eventu", "warning", 500);
         }
       );
     }
@@ -120,10 +119,9 @@ export class Companies_adminComponent implements OnInit {
             this.router.navigate(['companies_admin']);
           }
           window.location.reload();
-          //this.notifyService.success('user_has_been_delete_successfully');
         },
         err => {
-          //this.notifyService.error('failed_to_delete_customer');
+          notify("Chyba pri odstránení tiketu", "warning", 500);
         }
       );
     }

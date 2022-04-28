@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
 import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
 import { HistoryService } from 'src/app/services/History.Servis';
 import { UserService } from 'src/app/services/Users.Servis';
 import { EventCalendar } from '../../companies_admin/companies_admin/companies_admin.component';
-import { User } from '../../confirm/confirmUser/confirmUser.component';
 import { ShopingHistories } from '../../history/history.component';
 
 
@@ -56,14 +56,15 @@ export class Company_sell_buyComponent implements OnInit {
             this.formData.max = this.eventCalendar.capacity;
         }, 
         err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+          notify("Chyba pri získaní event kalendáru", "warning", 500);
         })}
     });
 
     //ak je zakaznik prihlaseny
     /*
+    var role = localStorage.getItem('role');
     var userId = localStorage.getItem('userId');
-    if(userId != null)
+    if(userId != null && role == "Customer")
     {
       this.userService.get(1).subscribe(s => {    // 1 = userId
         this.dataSource['first_Name'] = s.first_Name;

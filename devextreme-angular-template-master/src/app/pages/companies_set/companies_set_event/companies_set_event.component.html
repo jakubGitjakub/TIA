@@ -35,14 +35,26 @@
           <dxi-item dataField="status" caption="Status">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="companies" caption="Id firmy">
-          </dxi-item>
-      </dxi-item>
-      <dxi-item
-        itemType="button"
-        [buttonOptions]="{text: 'Ulož', onClick: handleSave}">
-      </dxi-item>
-  
+      </dxi-item>  
+</dx-form>
+
+<div class="dx-field">
+  <div class="dx-field-label" style="font-size: 20px; margin: 10px;">Výber firmy</div>
+  <div class="dx-field-value" style="margin: 15px;">
+    <dx-select-box
+      [items]="companies"
+      placeholder="Vybraná firma"
+      [showClearButton]="true"
+      (onValueChanged)="onValueChanged($event)"
+    ></dx-select-box>
+  </div>
+</div>
+
+<dx-form id="form" style="margin: 10px;">
+  <dxi-item
+    itemType="button"
+    [buttonOptions]="{text: 'Ulož', onClick: handleSave}">
+  </dxi-item>
 </dx-form>
 
 

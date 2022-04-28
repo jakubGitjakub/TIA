@@ -3,6 +3,7 @@ import { DxTreeViewModule, DxTreeViewComponent } from 'devextreme-angular/ui/tre
 import { navigation } from '../../../app-navigation';
 
 import * as events from 'devextreme/events';
+import LocalStore from 'devextreme/data/local_store';
 
 @Component({
   selector: 'app-side-navigation-menu',
@@ -40,8 +41,18 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
          return { ...item, expanded: !this._compactMode }
         });
     }
+    //nastavenie tlacidiel menu podla roly
 
-    return this._items;
+    //var userRole = null;
+    //var userRole = "Customer";
+    //var userRole = "User";
+    //var userRole = "Admin";
+
+    //var userRole = localStorage.getItem("rola"); 
+    //const items = this._items.filter(item => (item['role'].includes(userRole) || (item['role'].includes("") && userRole != null) || (userRole == null && item['role'].includes("noAuth")))) 
+    //return items;
+
+    return this._items; 
   }
 
   private _compactMode = false;

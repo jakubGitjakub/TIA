@@ -1,9 +1,12 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
+import { EventService } from 'src/app/services/Event.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
 import { UserService } from 'src/app/services/Users.Servis';
-import { Ticket } from '../../companies_admin/companies_admin/companies_admin.component';
+import { Events, Ticket } from '../../companies_admin/companies_admin/companies_admin.component';
 import { User } from '../../users/users/users.component';
 
 
@@ -21,10 +24,14 @@ export class Companies_set_ticketComponent implements OnInit {
   @ViewChild(DxFormComponent) form: DxFormComponent;
   @Input() public ticket: Ticket;
   user: User;
+  events = [];
+  dataEvents: Events[];
+  aktualEvent: string;
 
   constructor(
     private readonly router: Router,
     private readonly ticketService: TicketService,
+    private readonly eventService: EventService,
     private userService: UserService,
     private readonly activatedRoute: ActivatedRoute
     ) {  
@@ -37,6 +44,13 @@ export class Companies_set_ticketComponent implements OnInit {
   public newTicket = 0;
   initialize(): void {
     
+    this.eventService.getEvents().subscribe(s => {
+      this.dataEvents = s;
+      for(let i = 0; i < s.length; i++){
+        this.events.push(s[i].name);
+      }
+    });
+
     this.ticket = new Ticket;
 
     this.activatedRoute.params.subscribe(params => {
@@ -48,10 +62,9 @@ export class Companies_set_ticketComponent implements OnInit {
             this.ticket = ticket as Ticket;
         }, 
         err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+          notify("Chyba pri získaní tiketu", "warning", 500);
         });
       } else {
-        //inicializovat select box pre vyber eventu ku ktoremu bude ticket priradeni
         this.newTicket = 1;
         this.ticketService.getNextNumber().subscribe(num => {
           this.ticketId = num;
@@ -64,6 +77,10 @@ export class Companies_set_ticketComponent implements OnInit {
     const navigationState = window.history.state || {};
     this.router.navigate(['companies_set'], { state: navigationState });
   };
+
+  onValueChanged (e) {
+    this.aktualEvent = e.value; //nazov eventu
+  }
 
   public handleSave = () => {   
     if (!this.form.instance.validate().isValid) {
@@ -79,30 +96,41 @@ export class Companies_set_ticketComponent implements OnInit {
             if (res) {
               this.router.navigate([`/tickets/${res.ticketId}`]);
             }
-            //this.notifyService.success('user_has_been_saved_successfully');
             this.handleBack();
           },
           err => {
-            //this.notifyService.error('failed_to_save_customer');
+            notify("Chyba pri uložení tiketu", "warning", 500);
           }
         );
       }
       else{
-        //inicializovat zo select box pre ktory event bude ticket priradeni
-        this.ticketService.add(this.ticket).subscribe(
-          res => {
-            if (res) {
-              this.router.navigate([`/tickets/${res.ticketId}`]);
-            }
-            //this.notifyService.success('user_has_been_add_successfully');
-            this.handleBack();
-          },
-          err => {
-            //this.notifyService.error('failed_to_add_customer');
+        this.eventService.getEventByName(this.aktualEvent).subscribe(s => {
+          //kontrola dátumu
+          var dateStartE = formatDate(s[0].start_Date,'yyyy-MM-dd','en_US');
+          var dateEndE = formatDate(s[0].end_Date,'yyyy-MM-dd','en_US');
+          var dateStartT = formatDate(this.ticket['start_Date'],'yyyy-MM-dd','en_US');
+          var dateEndT = formatDate(this.ticket['end_Date'],'yyyy-MM-dd','en_US');
+
+          if( (dateStartT > dateStartE || dateStartT == dateStartE) && (dateEndT < dateEndE || dateEndT == dateEndE) && (dateStartT < dateEndT || dateStartT == dateEndT) )
+          {
+            this.ticket.Events = s;
+            this.ticketService.add(this.ticket).subscribe(
+            res => {
+              if (res) {
+                this.router.navigate([`/tickets/${res.ticketId}`]);
+              }
+              this.handleBack();
+            },
+            err => {
+              notify("Chyba pri pridaní tiketu", "warning", 500);
+            });  
           }
-        );  
-      }
-    });
+          else{
+            var result = confirm("Zadali ste nespravny dátum tiketu. Dátum tiketu musí byť v rozmedzí dátumu eventu : Začiatok eventu : " + dateStartE +" Koniec Eventu : " + dateEndE + " !");
+          }
+        })
+      } 
+    })
   }
 };
 

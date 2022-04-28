@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { EventService } from 'src/app/services/Event.Servis';
 import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
@@ -145,43 +147,56 @@ export class EventCalendar_addTicketComponent implements OnInit {
     if (!this.formControl.instance.validate().isValid) {
       return;
     }
-    else{     
-      let model = { 
-        'text': this.dataSource['text'], 
-        'startDate': this.dateStart, 
-        'endDate': this.dateEnd, 
-        'allDay': false, 
-        'capacity': this.dataSource['capacity'], 
-        'companyId': this.idCompany
-      }
-      this.saveData.push(model);
-      this.eventC = new EventCalendar;
-      this.eventC.startDate = this.saveData[0].startDate;
-      this.eventC.endDate = this.saveData[0].endDate;
-      this.eventC.capacity = this.saveData[0].capacity;
-      this.eventC.text = this.saveData[0].text;
-      this.eventC.allDay = false;
+    else{  
+      this.TicketServices.get(this.idTicket).subscribe(t => {
+        var dateStartT = formatDate(t['start_Date'],'yyyy-MM-dd','en_US');
+        var dateEndT = formatDate(t['end_Date'],'yyyy-MM-dd','en_US');
+        var dateStartEC = formatDate(this.dateStart,'yyyy-MM-dd','en_US');
+        var dateEndEC = formatDate(this.dateEnd,'yyyy-MM-dd','en_US');
 
-      //ulozenie do databazy
-      this.CompanyServices.get(this.idCompany).subscribe(s => {
-        this.eventC.company = s;  
-        this.EventServices.get(this.idEvent).subscribe(a => {
-          this.eventC.events = s;
-          this.TicketServices.get(this.idTicket).subscribe(b => {
-            this.eventC.tickets = s;
-            this.EventCalendarServices.add(this.eventC).subscribe(    //ulozenie
-            res => {
-              if(res){
-                this.router.navigate(['eventCalendar']);
-              }
-              this.handleBack();
-            },
-            err => {
-              //this.notifyService.error('failed_to_add_customer');
+        if( (dateStartEC > dateStartT || dateStartEC == dateStartT) && (dateEndEC < dateEndT || dateEndEC == dateEndT) && (dateStartEC < dateEndEC || dateStartEC == dateEndEC) )
+          {
+            let model = { 
+              'text': this.dataSource['text'], 
+              'startDate': this.dateStart, 
+              'endDate': this.dateEnd, 
+              'allDay': false, 
+              'capacity': this.dataSource['capacity'], 
+              'companyId': this.idCompany
+            }
+            this.saveData.push(model);
+            this.eventC = new EventCalendar;
+            this.eventC.startDate = this.saveData[0].startDate;
+            this.eventC.endDate = this.saveData[0].endDate;
+            this.eventC.capacity = this.saveData[0].capacity;
+            this.eventC.text = this.saveData[0].text;
+            this.eventC.allDay = false;
+      
+            //ulozenie do databazy
+            this.CompanyServices.get(this.idCompany).subscribe(s => {
+              this.eventC.company = s;  
+              this.EventServices.get(this.idEvent).subscribe(a => {
+                this.eventC.events = a;
+                this.TicketServices.get(this.idTicket).subscribe(b => {
+                  this.eventC.tickets = b;
+                  this.EventCalendarServices.add(this.eventC).subscribe(    //ulozenie
+                  res => {
+                    if(res){
+                      this.router.navigate(['eventCalendar']);
+                    }
+                    this.handleBack();
+                  },
+                  err => {
+                    notify("Chyba pri pridaní event kalendáru", "warning", 500);
+                  });
+                });
+              });
             });
-          });
-        });
-      });      
+          }
+        else{
+          var result = confirm("Zadali ste nespravny dátum tiketu. Dátum tiketu musí byť v rozmedzí dátumu eventu : Začiatok eventu : " + dateStartT +" Koniec Eventu : " + dateEndT + " !");
+        }
+      })     
     }
   } 
 };

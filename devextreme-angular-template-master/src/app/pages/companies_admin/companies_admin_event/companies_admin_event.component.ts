@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { EventService } from 'src/app/services/Event.Servis';
 import { UserService } from 'src/app/services/Users.Servis';
@@ -59,7 +60,7 @@ export class Companies_admin_eventComponent implements OnInit {
             this.event = event as Events;
         }, 
         err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+          notify("Chyba pri získaní eventu", "warning", 500);
         });
       } else {
         this.newEvent = 1;
@@ -94,11 +95,10 @@ export class Companies_admin_eventComponent implements OnInit {
             if (res) {
               this.router.navigate([`/events/${res.eventId}`]);
             }
-            //this.notifyService.success('user_has_been_saved_successfully');
             this.handleBack();
           },
           err => {
-            //this.notifyService.error('failed_to_save_customer');
+            notify("Chyba pri uložení eventu", "warning", 500);
           }
         );
       }
@@ -110,11 +110,10 @@ export class Companies_admin_eventComponent implements OnInit {
               if (res) {
                 this.router.navigate([`/events/${res.eventId}`]);
               }
-              //this.notifyService.success('user_has_been_add_successfully');
               this.handleBack();
             },
             err => {
-              //this.notifyService.error('failed_to_add_customer');
+              notify("Chyba pri pridaní eventu", "warning", 500);
             }
           );
         })

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
+import notify from 'devextreme/ui/notify';
 import { EventCalendarService } from 'src/app/services/EventCalendar.Servis';
 import { EventCalendar } from '../../companies_admin/companies_admin/companies_admin.component';
 
@@ -41,7 +42,7 @@ export class Company_sell_detailComponent implements OnInit {
             this.eventCalendar = eventCalendar[0] as EventCalendar;
         }, 
         err => {
-          //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+          notify("Chyba pri získaní event kalendáru", "warning", 500);
         })}
     });
   }

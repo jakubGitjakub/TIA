@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
+import notify from 'devextreme/ui/notify';
 import { UserService } from 'src/app/services/Users.Servis';
 import { User } from '../../users/users/users.component';
 
@@ -48,19 +49,23 @@ export class ProfileComponent implements OnInit {
     this.userService.get(this.userId).subscribe(
       user => {
         this.dataSource = user;
-        this.image = user.image_Path;   //osetrit ak tam nieje url
+        if(user.image_Path == null)
+          this.image = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
+        else{
+          this.image = user.image_Path;   //osetrit ak tam nieje url
+        }
         this.user = user as User;
         this.galleryDataSource = [
           this.image
         ];
     }, 
     err => {
-      //this.notifyService.error('failed_to_load_data');    //pomocou notifyService upozornim na chybu
+      notify("Chyba pri získaní používateľa", "warning", 500);
     });
   }
 
   handleEdit = (e): void => {
-    const userId = this.userId; //= this.user.id
+    const userId = this.userId;
     this.router.navigate(['profile', userId]);
   }
 

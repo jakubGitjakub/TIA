@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
 import { HistoryService } from 'src/app/services/History.Servis';
-import { TicketService } from 'src/app/services/Ticket.Servis';
 import { User } from '../users/users/users.component';
 
 @Component({
@@ -19,11 +17,8 @@ export class HistoryComponent implements OnInit {
   dataSource: ShopingHistories[];
   
   
-  constructor(private historyService: HistoryService, 
-    private readonly router: Router,
-    private readonly ticket: TicketService
+  constructor(private historyService: HistoryService
     ) {}
-
 
 
   ngOnInit(): void {

@@ -90,10 +90,11 @@ namespace TodoApi.Controllers
             {
                 return BadRequest();
             }
-            //osetrit ak nema danu adresu nastane eror
-            var address = await _context.Addresses.SingleOrDefaultAsync(s => s.Id == users.Id_Addresses.Id);
-            users.Id_Addresses = address;
-
+            if (users.Id_Addresses != null)
+            { 
+                var address = await _context.Addresses.SingleOrDefaultAsync(s => s.Id == users.Id_Addresses.Id);
+                users.Id_Addresses = address;
+            }
             _context.Entry(users).State = EntityState.Modified;
             
             try

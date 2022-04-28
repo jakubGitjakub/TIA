@@ -33,7 +33,6 @@ export class Companies_sellComponent implements OnInit {
         model = {'name': s[i].text, 'name_company': s[i].company['name'], 'name_event': s[i].events['name'], 'name_ticket': ""}
         this.dataSource.push(model);
       }
-
     })
   }
 

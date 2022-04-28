@@ -70,6 +70,16 @@ namespace TodoApi.Controllers
             return tickets;
         }
 
+        [HttpGet("number")]
+        public async Task<ActionResult<long>> GetNextNumber()
+        {
+            var tickets = await _context.Tickets.ToListAsync();
+            var id = tickets.Max(x => x.Id);
+            long number = 1;
+            number = id + 1;
+            return number;
+        }
+
         // PUT: api/Tickets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

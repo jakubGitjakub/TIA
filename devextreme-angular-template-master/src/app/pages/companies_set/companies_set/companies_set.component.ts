@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
+import notify from 'devextreme/ui/notify';
 import { CompanyService } from 'src/app/services/Company.Servis';
 import { EventService } from 'src/app/services/Event.Servis';
 import { TicketService } from 'src/app/services/Ticket.Servis';
@@ -80,7 +81,7 @@ export class Companies_setComponent implements OnInit {
     const eventId = e.row.key;
     if((e.row.values[4]) == "Open")
     {
-      this.router.navigate(['companies_admin', eventId, 'E' ], { state: { page: this.pager.pageIndex } }); 
+      this.router.navigate(['companies_set', eventId, 'E' ], { state: { page: this.pager.pageIndex } }); 
     }
     else{
       confirm("Editácia tohto eventu je ukončená !");
@@ -90,7 +91,7 @@ export class Companies_setComponent implements OnInit {
     const ticketId = e.row.key;
     if((e.row.values[6]) == "Open")
     {
-      this.router.navigate(['companies_admin', ticketId, 'T'], { state: { page: this.pager.pageIndex } });
+      this.router.navigate(['companies_set', ticketId, 'T'], { state: { page: this.pager.pageIndex } });
     }
     else{
       confirm("Editácia tohto tiketu je ukončená !");
@@ -104,23 +105,22 @@ export class Companies_setComponent implements OnInit {
       this.TicketServices.delete(ticketId).subscribe(
         res => {
           if (res) {
-            this.router.navigate(['companies_admin']);
+            this.router.navigate(['companies_set']);
           }
           window.location.reload();
-          //this.notifyService.success('user_has_been_delete_successfully');
         },
         err => {
-          //this.notifyService.error('failed_to_delete_customer');
+          notify("Chyba pri odstránení tiketu", "warning", 500);
         }
       );
     }
   }
 
   handleAddEvent = (e): void => {
-    this.router.navigate(['companies_admin', 'newE']);
+    this.router.navigate(['companies_set', 'newE']);
   }
   handleAddTicket = (e): void => {
-    this.router.navigate(['companies_admin', 'newT']);
+    this.router.navigate(['companies_set', 'newT']);
   }
 
 }

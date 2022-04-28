@@ -45,10 +45,17 @@ namespace TodoApi.Controllers
         [HttpGet("number")]
         public async Task<ActionResult<long>> GetNextNumber()
         {
-            var address = await _context.Addresses.ToListAsync();
-            var id = address.Max(x => x.Id);
             long number = 1;
-            number = id + 1;
+            var address = await _context.Addresses.ToListAsync();
+            if(address.Count == 0)
+            {
+                number = 1;
+            }
+            else
+            {
+                var id = address.Max(x => x.Id);
+                number = id + 1;
+            }
             return number;
         }
 
