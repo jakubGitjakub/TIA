@@ -1,0 +1,9 @@
+Prirpavené údaje v databáze
+
+Používatelia: 	login  		heslo		
+		Admin		admin123	-rola admin
+		User		user123		-rola user
+		Customer	customer123	-rola customer
+
+Pri pridaní eventu userom sa hneď nezobrazí lebo potrebuje schválenie admina
+Po registrácií user sa nemôže hneď prihlásiť lebo potrebuje schválenie admina
