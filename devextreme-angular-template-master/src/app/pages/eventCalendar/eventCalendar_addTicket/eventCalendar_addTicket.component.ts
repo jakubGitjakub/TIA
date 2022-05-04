@@ -76,9 +76,6 @@ export class EventCalendar_addTicketComponent implements OnInit {
         this.companies.push(s[i].name);
       }
     });
-    this.EventCalendarServices.getNextNumber().subscribe(num => {
-      this.eventCId = num;
-    });
   };
 
   onValueChanged (e) {

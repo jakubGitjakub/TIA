@@ -48,9 +48,6 @@ export class Companies_admin_companyComponent implements OnInit {
         });
       } else {
         this.newCompany = 1;
-        this.companyService.getNextNumber().subscribe(num => {
-          this.companyId = num;
-        });
       }
       })
     };

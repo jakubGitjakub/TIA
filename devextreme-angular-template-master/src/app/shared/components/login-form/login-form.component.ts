@@ -4,7 +4,6 @@ import { ActivatedRouteSnapshot, Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { navigation } from 'src/app/app-navigation';
 import { UserService } from 'src/app/services/Users.Servis';
 import { AuthService } from '../../services';
 
@@ -36,33 +35,25 @@ export class LoginFormComponent {
     this.userServis.getUsersLogin(login, password).subscribe( s => {
       if(s)
       {
-        var role = s.role;
+        var role = s.userRole;  //rola
+        var user = s.user;    //id
+        localStorage.setItem('user', user);
         localStorage.setItem('rola', role);
+        localStorage.setItem('login', login);
+        this.loading = false;
+        this.router.navigate(['home']);
+        window.location.reload();
       }
     },
     err => {
+      //message
+      notify("Nesprávne prihlasovacie údaje", "warning", 500);
+      localStorage.setItem('user', "");
       localStorage.setItem('rola', "");
+      this.loading = false;
     });
 
-
-    const result = await this.authService.logIn(login, password);
-    if (!result.isOk) {
-      this.loading = false;
-      notify(result.message, 'error', 2000);
-    }
   }
-    
-
-    /*
-    e.preventDefault();
-    const { login, password } = this.formData;
-    this.loading = true;
-
-    const result = await this.authService.logIn(login, password);
-    if (!result.isOk) {
-      this.loading = false;
-      notify(result.message, 'error', 2000);
-    }*/
 
   onCreateAccountClick = () => {
     this.router.navigate(['/create-account']);

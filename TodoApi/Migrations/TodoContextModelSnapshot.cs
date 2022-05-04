@@ -217,12 +217,12 @@ namespace TodoApi.Migrations
                     b.Property<string>("Ticket")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("UsersId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ShopingHistory");
                 });
@@ -408,12 +408,12 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.ShopingHistory", b =>
                 {
-                    b.HasOne("TodoApi.Models.Users", "Users")
+                    b.HasOne("TodoApi.Models.Users", "User")
                         .WithMany("ShopingHistory")
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TodoApi.Models.Tickets", b =>

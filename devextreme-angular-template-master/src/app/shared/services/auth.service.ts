@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { User } from 'src/app/pages/users/users/users.component';
-import { UserService } from 'src/app/services/Users.Servis';
+import { UserService, environment } from 'src/app/services/Users.Servis';
 
 const defaultPath = '/home';
 const defaultUser = {
@@ -12,7 +13,6 @@ const defaultUser = {
 @Injectable()
 export class AuthService {
   private user = User;
-  private Login;
   get loggedIn(): boolean {
     return !!this.user;
   }
@@ -23,18 +23,15 @@ export class AuthService {
   }
 
   constructor(private router: Router,
-    private UsersService : UserService) { }
+    private UsersService : UserService,
+    private http:HttpClient ) { }
 
   async logIn(Login: string, Password: string) {
 
-    try {
-      // Send request
-      
+    try {    
       this.UsersService.getUsersLogin(Login, Password).subscribe(s => {
         this.user = s;
       })
-
-      //this.router.navigate(['home']);
       this.router.navigate([this._lastAuthenticatedPath]);
       window.location.reload();
 
@@ -67,15 +64,13 @@ export class AuthService {
     }
   }
 
-  async createAccount(login, password) {
+  createAccount(login, password, roles) {
     try {
-      // Send request
-      console.log(login, password);
-
-      this.router.navigate(['/create-account']);
-      return {
-        isOk: true
-      };
+      
+      //request na databzu
+      var result = this.http.post<any>(`${environment.baseUrl}/api/auth/register`,{Login:login, Password:password, Role:roles}).subscribe(e => {
+        this.router.navigate(['/login-form']);
+      });
     }
     catch {
       return {
@@ -121,7 +116,10 @@ export class AuthService {
 
   async logOut() {
     this.user = null;
-    localStorage.setItem('ROLE', '');
+    localStorage.clear();
+    localStorage.setItem('rola', '');
+    localStorage.setItem('user', '');
+    localStorage.setItem('login', '');
     this.router.navigate(['/login-form']);
   }
 }

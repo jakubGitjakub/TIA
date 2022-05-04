@@ -7,6 +7,7 @@ import { HistoryService } from 'src/app/services/History.Servis';
 import { UserService } from 'src/app/services/Users.Servis';
 import { EventCalendar } from '../../companies_admin/companies_admin/companies_admin.component';
 import { ShopingHistories } from '../../history/history.component';
+import { User } from '../../users/users/users.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class Company_sell_buyComponent implements OnInit {
   dataSource: BuyTicket[] = [];
   @Input() public shopingHistory: ShopingHistories;
   aktualDate: Date;
+  user: User;
   formData: any = { min: 1, max: 100, value: 1 };    //nastavit max podla kapacity z event kalendaru
   payment = ["Debetná karta", "Kreditná karta", "Internet banking"];
 
@@ -61,18 +63,20 @@ export class Company_sell_buyComponent implements OnInit {
     });
 
     //ak je zakaznik prihlaseny
-    /*
-    var role = localStorage.getItem('role');
-    var userId = localStorage.getItem('userId');
-    if(userId != null && role == "Customer")
+    if(Number(localStorage.getItem("user")) != undefined)    
     {
-      this.userService.get(1).subscribe(s => {    // 1 = userId
-        this.dataSource['first_Name'] = s.first_Name;
-        this.dataSource['last_Name'] = s.last_Name;
-        this.dataSource['email'] = s.email;
-      });
+      var role = localStorage.getItem('rola');
+      var userId = Number(localStorage.getItem('user'));
+      if(userId != null && role == "Customer")
+      {
+        this.userService.get(userId).subscribe(s => {
+          this.dataSource['first_Name'] = s.first_Name;
+          this.dataSource['last_Name'] = s.last_Name;
+          this.dataSource['email'] = s.email;
+        });
+      }
     }
-    */
+    
   };
 
   public handleBack = () => {
@@ -91,17 +95,27 @@ export class Company_sell_buyComponent implements OnInit {
 
     //1.ulozit do historie nakupov podla id zakaznika ak je zakaznik prihlaseny
     this.aktualDate = new Date();
-    //var userId = localStorage.getItem('userId'); 
-    //if(userId != null)
-    //{
-      this.userService.get(1).subscribe(s => {  //nastavit id prihlaseneho ak je zakaznik prihlaseny  1 => userId
-        this.shopingHistory.user = s;
+    var userId = Number(localStorage.getItem("user"));
+    if(userId != null)
+    {
+      this.userService.get(userId).subscribe(s => { 
+        this.user = s;
+        this.shopingHistory.user = this.user;
         this.shopingHistory.date = this.aktualDate;
         this.shopingHistory.ticket = this.eventCalendar.tickets['name'];
         this.shopingHistory.count_Ticket = this.formData.value;
-        this.historyService.add(this.shopingHistory).subscribe();
+        this.historyService.add(this.shopingHistory).subscribe(
+          res => {
+            if (res) {
+              console.log("pridalo");
+            }
+          },
+          err => {
+            notify("Chyba pri uložení historie nákupu", "warning", 500);
+          }
+        );
       })
-    //}
+    }
 
     //2.znizit kapacitu v event kalendari
     this.eventCalendar.capacity = (this.eventCalendar.capacity - this.formData.value);

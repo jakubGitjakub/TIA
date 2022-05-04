@@ -131,14 +131,14 @@ namespace TodoApi.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Ticket = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Count_Ticket = table.Column<int>(type: "int", nullable: true),
-                    UsersId = table.Column<long>(type: "bigint", nullable: true)
+                    UserId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShopingHistory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShopingHistory_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_ShopingHistory_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -296,9 +296,9 @@ namespace TodoApi.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShopingHistory_UsersId",
+                name: "IX_ShopingHistory_UserId",
                 table: "ShopingHistory",
-                column: "UsersId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_UserId",

@@ -28,5 +28,9 @@ export class HistoryService {
         return this.http.post<History>(`${this.baseURL}/api/shopingHistories`, shopingHistory);
     }
 
+    getUserHistory(id: any): Observable<any>{
+        return this.http.get(`${this.baseURL}/api/shopingHistories/${id}`);
+    }
+
     
 }

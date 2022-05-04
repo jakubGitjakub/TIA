@@ -45,14 +45,14 @@ export class ProfileComponent implements OnInit {
 
   initialize(): void {
     this.user = new User;
-    this.userId = 1;      //nastavit ID prihlaseneho
+    this.userId = Number(localStorage.getItem("user"));
     this.userService.get(this.userId).subscribe(
       user => {
         this.dataSource = user;
         if(user.image_Path == null)
           this.image = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
         else{
-          this.image = user.image_Path;   //osetrit ak tam nieje url
+          this.image = user.image_Path;
         }
         this.user = user as User;
         this.galleryDataSource = [

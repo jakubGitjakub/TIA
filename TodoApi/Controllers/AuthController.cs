@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using TodoApi.Models;
 
 namespace TodoApi.Controllers
 {
@@ -13,39 +14,66 @@ namespace TodoApi.Controllers
     {
         public static Models.Users user = new Models.Users();
         private readonly IConfiguration _configuration;
+        private readonly TodoContext _context;
 
-        public AuthController(IConfiguration configuration)
+
+        public AuthController(IConfiguration configuration, TodoContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
 
 
         [HttpPost("register")]
         public async Task<ActionResult<Models.Users>> Register(UserDto request)
         {
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.Login = request.Login;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            return Ok(user);
+            var result = _context.Users.FirstOrDefault(s => s.Login == request.Login);
+            if (result != null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var user = new Models.Users();
+                CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                user.Login = request.Login;
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                if(request.Role == "Customer")
+                    user.Verify_Status = true;
+                else
+                {
+                    user.Verify_Status = false;
+                }
+                user.Role = request.Role;
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                return Ok(user);
+            }
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDto request)
         {
-            if(user.Login != request.Login)
+            var result = _context.Users.FirstOrDefault(s => s.Login == request.Login);
+            if (result == null)
             {
-                return BadRequest("User not found!");
+                return BadRequest();
             }
 
-            if(!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            if(!VerifyPasswordHash(request.Password, result.PasswordHash, result.PasswordSalt))
             {
                 return BadRequest("Wrong password");
             }
 
-            string token = CreateToken(user);
+            if(result.Verify_Status == false)
+            {
+                return BadRequest("Not confirmed account");
+            }
+
+            string token = CreateToken(result);
              
-            return Ok(token);
+            return Ok(new {user = result.Id, userRole = result.Role, token = token });
         }
 
         private string CreateToken(Models.Users user)
@@ -56,7 +84,7 @@ namespace TodoApi.Controllers
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings: Token").Value));
+                "J7WF56mEcQJ7WF56mEcQJ7WF56mEcQJ7WF56mEcQ"));
 
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(

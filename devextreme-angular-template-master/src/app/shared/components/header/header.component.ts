@@ -1,6 +1,5 @@
 import { Component, NgModule, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AuthService } from '../../services';
 import { UserPanelModule } from '../user-panel/user-panel.component';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
@@ -15,37 +14,45 @@ import { Router } from '@angular/router';
 
 export class HeaderComponent implements OnInit {
   @Output()
-  menuToggle = new EventEmitter<boolean>(); //nastavit menu
+  menuToggle = new EventEmitter<boolean>();
 
   @Input()
   menuToggleEnabled = false;
 
   @Input()
   title: string;
+  logIn: string;
 
+  user = { login: localStorage.getItem("login") };    //nastavim login prihlaseneho
 
-  user = { login: localStorage.getItem("rola") };    //nastavim login prihlaseneho
-
+  
   userMenuItems = [{
-    text: 'Prihlásenie',        //osetrit striedanie prihlaseny / odhlaseny
-    icon: 'runner',
+    text: 'Profil', 
+    icon: 'user',
     onClick: () => {
-      this.authService.logOut();
+      this.router.navigate(['/profile']);
     }
   },
-  // {
-  //   text: 'Logout',
-  //   icon: 'runner',
-  //   onClick: () => {
-  //     this.authService.logOut();
-  //   }
-  // }
+    {
+      text: 'Odhlásiť sa',
+      icon: 'runner',
+      onClick: () => {
+        this.authService.logOut();
+      }
+    }
   ];
+  
+
+  isAuthenticated() {
+    if(localStorage.getItem("login") != "")
+      return true;
+    else
+      return false;
+  }
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    //this.authService.getUser().then((e) => this.user = e.data);
   }
 
   toggleMenu = () => {

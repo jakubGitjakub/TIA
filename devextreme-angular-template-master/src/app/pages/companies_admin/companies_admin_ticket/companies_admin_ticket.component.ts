@@ -65,9 +65,6 @@ export class Companies_admin_ticketComponent implements OnInit {
         });
       } else {
         this.newTicket = 1;
-        this.ticketService.getNextNumber().subscribe(num => {
-          this.ticketId = num;
-        });
       }
       })
     };
@@ -85,7 +82,8 @@ export class Companies_admin_ticketComponent implements OnInit {
     if (!this.form.instance.validate().isValid) {
       return;
     }
-    this.userService.get(1).subscribe(s => {  //nastavit id prihlaseneho
+    var userID = Number(localStorage.getItem("user"));
+    this.userService.get(userID).subscribe(s => { 
       this.user = s;
       this.ticket.user = this.user;
       if(this.newTicket == 0)

@@ -25,7 +25,7 @@
       locateInMenu="auto"
       menuItemTemplate="menuItem">
       <div *dxTemplate="let data of 'item'">
-        <dx-button
+        <dx-button *ngIf="isAuthenticated(); else unauthenticated"
           class="user-button authorization"
           width="210px"
           height="100%"
@@ -34,6 +34,21 @@
             <app-user-panel [user]="user" [menuItems]="userMenuItems" menuMode="context"></app-user-panel>
           </div>
         </dx-button>
+
+        <ng-template #unauthenticated>
+          <div class="" id="navbarNav">
+            <ul class="navbar-nav" style="flex-direction: row;">
+              <li class="nav-item" >
+                <a class="login-nav-link" href="/#/login-form" routerLinkActive="active">Prihlásenie</a>
+              </li>
+              <li class="nav-item" >
+                <a class="login-nav-link" href="/#/create-account" routerLinkActive="active">Registrácia</a>
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+
+        
       </div>
     </dxi-item>
     

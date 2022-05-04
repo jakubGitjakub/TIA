@@ -48,10 +48,12 @@ export const navigation = [
     items: [
       {
         text: 'Používatelia',
+        icon: 'group',
         path: '/confirmUser'
       },
       {
         text: 'Eventy',
+        icon: 'columnchooser',
         path: '/confirmEvent'
       }
     ]
@@ -59,16 +61,16 @@ export const navigation = [
   {
     text: 'Nastavenie',     //profil a zmena hesla pre každého
     icon: 'preferences',
-    role: [""],
+    role: ["Customer","User","Admin"],
     items: [
       {
         text: 'Profil',
         path: '/profile'
       },
-      {
-        text: 'Zmena hesla',
-        path: '/change-password'                        //'/change-password/:recoveryCode'
-      }
+      //{
+      //  text: 'Zmena hesla',
+      //  path: '/change-password'                        //'/change-password/:recoveryCode'
+      //}
     ]
   }
 ];

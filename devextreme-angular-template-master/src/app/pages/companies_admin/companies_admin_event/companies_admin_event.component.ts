@@ -64,9 +64,6 @@ export class Companies_admin_eventComponent implements OnInit {
         });
       } else {
         this.newEvent = 1;
-        this.eventService.getNextNumber().subscribe(num => {
-          this.eventId = num;
-        });
       }
       })
     };
@@ -84,8 +81,8 @@ export class Companies_admin_eventComponent implements OnInit {
     if (!this.form.instance.validate().isValid) {
       return;
     }
-    //get usera
-    this.userService.get(1).subscribe(s => { //dat id prihlaseneho
+    var userID = Number(localStorage.getItem("user"));
+    this.userService.get(userID).subscribe(s => {
       this.user = s;
       this.event.Users = this.user;
       if(this.newEvent == 0)

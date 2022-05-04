@@ -86,9 +86,9 @@ export class Users_detailComponent implements OnInit {
       );
     }
     else{
-      this.userService.add(this.user).subscribe(
-        res => {
-          if (res) {
+      this.userService.add(this.user).subscribe(    //add user nema velmi vyznam, lebo by trebalo nastavit heslo
+        res => {                                    //dalo by sa to doriesit bez hesla a pridanim "prve prihlasenie" bez hesla, kde nasledne user vyplni heslo
+          if (res) {                                //kedze je tam klasicka registracia, toto pridavanie nema teraz zmysel
             this.router.navigate([`/users/${res.userId}`]);
           }
           this.handleBack();

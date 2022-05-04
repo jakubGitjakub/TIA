@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxoPagingComponent } from 'devextreme-angular/ui/nested';
 import { HistoryService } from 'src/app/services/History.Servis';
@@ -14,6 +14,7 @@ export class HistoryComponent implements OnInit {
   
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxoPagingComponent) pager: DxoPagingComponent;
+  @Input() userId: number;
   dataSource: ShopingHistories[];
   
   
@@ -22,8 +23,9 @@ export class HistoryComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.historyService.getHistory().subscribe(s => {
-      this.dataSource = s;  //getHistory podľa id_prihlaseneho
+    this.userId = Number(localStorage.getItem("user"));
+    this.historyService.getUserHistory(this.userId).subscribe(s => {
+      this.dataSource = s;
     })
   }
 

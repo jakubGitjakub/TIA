@@ -8,6 +8,6 @@ namespace TodoApi.Models
         public DateTime? Date { get; set; }
         public string? Ticket { get; set; }
         public int? Count_Ticket { get; set; }
-        public virtual Users? Users { get; set; }
+        public virtual Users? User { get; set; }
     }
 }

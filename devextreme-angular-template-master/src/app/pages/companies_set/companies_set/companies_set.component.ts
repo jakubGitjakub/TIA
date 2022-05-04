@@ -63,8 +63,7 @@ export class Companies_setComponent implements OnInit {
     })
 
     //set eventov a tiketov pre daneho usera
-    //get ID usera z localStorage
-    var id = 1;
+    var id = Number(localStorage.getItem("user"));
     this.EventServices.getEventsByUser(id).subscribe(s => {   //get event ktore maju Access = open alebo su od daneho usera
       this.dataEventsAccess = s;
     });

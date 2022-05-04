@@ -66,7 +66,7 @@ export class UserService {
     }
 
     getUsersLogin(login: string, password: string): Observable<any>{
-        return this.http.get(`${this.baseURL}/api/users/logVerify/${login}/${password}`);
+        return this.http.post<any>(`${environment.baseUrl}/api/auth/login`,{Login:login, Password:password});
     }
     
 }
