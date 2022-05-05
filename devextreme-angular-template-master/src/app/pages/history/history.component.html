@@ -9,7 +9,6 @@
       <dx-data-grid
         id="gridContainer"
         [dataSource]="dataSource"
-        keyExpr="id"
         [showBorders]="true"
         [allowColumnReordering]="true"
         [allowColumnResizing]="true"
@@ -22,6 +21,11 @@
             [allowedPageSizes]="[5, 10, 20]"
             [showNavigationButtons]="true">
         </dxo-pager>
+
+        <dxo-editing
+          mode="form"
+        >
+        </dxo-editing>
     
         <dxi-column dataField="id" [visible]="false"></dxi-column>
         <dxi-column dataField="ticket" caption="Názov tiketu" ></dxi-column>
@@ -32,6 +36,7 @@
         <dxi-column dataField="count_Ticket" caption="Počet kusov" alignment="left"></dxi-column>
  
       </dx-data-grid>
+      
     </div>
   </div>
 </div>

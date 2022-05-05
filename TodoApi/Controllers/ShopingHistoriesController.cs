@@ -30,23 +30,9 @@ namespace TodoApi.Controllers
 
         // GET: api/ShopingHistories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ShopingHistory>> GetShopingHistory(long id)
+        public async Task<ActionResult<IEnumerable<ShopingHistory>>> GetShopingHistory(long id)
         {
-            var shopingHistory = await _context.ShopingHistory.FindAsync(id);
-
-            if (shopingHistory == null)
-            {
-                return NotFound();
-            }
-
-            return shopingHistory;
-        }
-
-        // GET: api/ShopingHistories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<ShopingHistory>>> GetUserHistory(long id)
-        {
-            var shopingHistory = await _context.ShopingHistory.Include(s => s.User).Where(x => x.User.Id == id).ToListAsync();
+            var shopingHistory = await _context.ShopingHistory.Include(s => s.User).Where(i => i.User.Id == id).ToListAsync();
 
             if (shopingHistory == null)
             {
@@ -97,7 +83,7 @@ namespace TodoApi.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == shopingHistory.User.Id);
             shopingHistory.User = user;
 
-            //_context.ShopingHistory.Add(shopingHistory);
+            _context.ShopingHistory.Add(shopingHistory);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetShopingHistory", new { id = shopingHistory.Id }, shopingHistory);

@@ -139,11 +139,24 @@ namespace TodoApi.Controllers
         public async Task<IActionResult> DeleteTickets(long id)
         {
             var tickets = await _context.Tickets.FindAsync(id);
+
             if (tickets == null)
             {
                 return NotFound();
             }
 
+            var ticket = await _context.Tickets.Include(e => e.Events).Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (ticket != null)
+            {
+                ticket.Events = null;
+            }
+
+            var eventCalendar = await _context.EventCalendar.Include(e => e.Tickets).Where(x => x.Tickets.Id == id).FirstOrDefaultAsync();
+            if(eventCalendar != null)
+            {
+                eventCalendar.Tickets = null;
+            }
+            
             _context.Tickets.Remove(tickets);
             await _context.SaveChangesAsync();
 

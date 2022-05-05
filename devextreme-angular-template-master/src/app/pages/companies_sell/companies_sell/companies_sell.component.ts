@@ -30,6 +30,7 @@ export class Companies_sellComponent implements OnInit {
     this.EventCalendarServis.getEventCalendar().subscribe(s => {
       this.dataEventCalendar = s;
       for (let i = 0; i < s.length; i++) {
+        if(s[i].company['name'] != null && s[i].events['name'] != null)
         model = {'name': s[i].text, 'name_company': s[i].company['name'], 'name_event': s[i].events['name'], 'name_ticket': ""}
         this.dataSource.push(model);
       }

@@ -180,7 +180,7 @@ const routes: Routes = [
     ProfileComponent, EventCalendarComponent, HistoryComponent, Users_detailComponent, ConfirmEventComponent, ConfirmUserComponent, 
     Companies_admin_companyComponent, Companies_admin_eventComponent, Companies_admin_ticketComponent, Profile_detailComponent, 
     Company_sell_detailComponent, Company_sell_buyComponent, Companies_set_eventComponent, Companies_set_ticketComponent,
-    EventCalendar_addTicketComponent ],
+    EventCalendar_addTicketComponent],
   imports: [
     BrowserModule,
     SideNavOuterToolbarModule,

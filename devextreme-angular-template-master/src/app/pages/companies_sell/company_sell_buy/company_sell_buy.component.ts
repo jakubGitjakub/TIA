@@ -70,6 +70,7 @@ export class Company_sell_buyComponent implements OnInit {
       if(userId != null && role == "Customer")
       {
         this.userService.get(userId).subscribe(s => {
+          console.log(s);
           this.dataSource['first_Name'] = s.first_Name;
           this.dataSource['last_Name'] = s.last_Name;
           this.dataSource['email'] = s.email;
@@ -107,7 +108,6 @@ export class Company_sell_buyComponent implements OnInit {
         this.historyService.add(this.shopingHistory).subscribe(
           res => {
             if (res) {
-              console.log("pridalo");
             }
           },
           err => {

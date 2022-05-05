@@ -15,26 +15,28 @@ export class HistoryComponent implements OnInit {
   @ViewChild('grid') grid: DxDataGridComponent;
   @ViewChild(DxoPagingComponent) pager: DxoPagingComponent;
   @Input() userId: number;
-  dataSource: ShopingHistories[];
-  
+  dataSource: ShopingHistories;
   
   constructor(private historyService: HistoryService
     ) {}
 
 
   ngOnInit(): void {
+    this.initialize();
+  }
+
+  initialize(): void {
     this.userId = Number(localStorage.getItem("user"));
-    this.historyService.getUserHistory(this.userId).subscribe(s => {
+    this.historyService.getUserHistory(this.userId).subscribe(s => {   
       this.dataSource = s;
     })
   }
-
 }
 
 export class ShopingHistories {
   id: number;
   date: Date;
   ticket: string;
-  count_Ticket: string;
+  count_Ticket: number;
   user: User;
 }

@@ -132,6 +132,18 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
+            var company = await _context.Companies.Include(e => e.Events).Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (company != null)
+            {
+                company.Events = null;
+            }
+
+            var eventCalendar = await _context.EventCalendar.Include(e => e.Company).Where(x => x.Company.Id == id).FirstOrDefaultAsync();
+            if (eventCalendar != null)
+            {
+                eventCalendar.Company = null;
+            }
+
             _context.Companies.Remove(companies);
             await _context.SaveChangesAsync();
 
