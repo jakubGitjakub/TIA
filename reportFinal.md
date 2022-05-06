@@ -20,9 +20,18 @@ Implementované : Neprihlásený : Kúpiť lístok
 				Profil
 Rozpracované :	--
 		
-Neimplementované : zmena hesla, reset zabudnuté heslo, odosielanie mailu o kúpe lístka
+Neimplementované : zmena hesla, reset zabudnuté heslo, odosielanie mailu o kúpe lístka => neboli pridané z dôvodu nedostatku času
 
 Práca na projekte : Beta verzia => 9 + 13 + 17 + 36 = 75hodín, Pokračovanie =>  15 + 13 + 11 + 12 = 51hodín ... dokopy 126hodín
+Odhadovaný čas bol 76hodín, po beta verzii bol odhad 107hodín
+
+Základná kostra projektu 
+Angular : 	18 478.8 lines
+C# :		0 lines
+
+Finálny projekt
+Angular :
+C# :
 
 Keby ste to robili znovu, čo by ste urobili inak : určite by som lepšie potreboval odhadnúť čas na implementáciu 
 podľa času sa potom rozhodnúť do akého projektu sa pustiť, mnoho vecí by som spravil o dosť rýchlejšie, 
