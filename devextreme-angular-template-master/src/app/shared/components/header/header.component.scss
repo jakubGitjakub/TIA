@@ -46,3 +46,12 @@
   color: rgba(0,0,0,.9);
   text-decoration: none;
 }
+
+.navbar-nav{
+  display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    margin-top: 0;
+}

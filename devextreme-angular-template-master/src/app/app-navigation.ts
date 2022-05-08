@@ -67,10 +67,6 @@ export const navigation = [
         text: 'Profil',
         path: '/profile'
       },
-      //{
-      //  text: 'Zmena hesla',
-      //  path: '/change-password'                        //'/change-password/:recoveryCode'
-      //}
     ]
   }
 ];

@@ -19,10 +19,8 @@ export class LoginFormComponent {
 
   constructor(private authService: AuthService,
     private readonly userServis: UserService, 
-  private router: Router
-  ) { 
-
-  }
+    private router: Router
+  ) { }
 
   route: ActivatedRouteSnapshot;
 
@@ -30,7 +28,6 @@ export class LoginFormComponent {
     e.preventDefault();
     const { login, password } = this.formData;
     this.loading = true;
-
 
     this.userServis.getUsersLogin(login, password).subscribe( s => {
       if(s)
@@ -40,6 +37,7 @@ export class LoginFormComponent {
         localStorage.setItem('user', user);
         localStorage.setItem('rola', role);
         localStorage.setItem('login', login);
+        this.authService.logIn();
         this.loading = false;
         this.router.navigate(['home']);
         window.location.reload();
@@ -50,6 +48,7 @@ export class LoginFormComponent {
       notify("Nesprávne prihlasovacie údaje", "warning", 500);
       localStorage.setItem('user', "");
       localStorage.setItem('rola', "");
+      localStorage.setItem('login', "");
       this.loading = false;
     });
 

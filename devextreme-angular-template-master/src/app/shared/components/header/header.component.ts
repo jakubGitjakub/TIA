@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   title: string;
   logIn: string;
 
-  user = { login: localStorage.getItem("login") };    //nastavim login prihlaseneho
+  user: string | null =  '';
 
   
   userMenuItems = [{
@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
   
 
   isAuthenticated() {
-    if(localStorage.getItem("login") != "")
+    if(localStorage.getItem("login") != null)
       return true;
     else
       return false;
@@ -53,6 +53,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.user = localStorage.getItem("login");
   }
 
   toggleMenu = () => {

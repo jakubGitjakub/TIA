@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
-import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule, ChangePasswordFormComponent, CreateAccountFormComponent, LoginFormComponent, ResetPasswordFormComponent } from './shared/components';
+import { FooterModule, CreateAccountFormModule, LoginFormModule, CreateAccountFormComponent, LoginFormComponent } from './shared/components';
 import { AuthService, ScreenService, AppInfoService, AuthGuardService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,114 +34,159 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin', 'User', 'Customer']},
   },
   {
     path: 'profile/:id',
     component: Profile_detailComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin', 'User', 'Customer']},
   },
   {
     path: 'home',
     component: HomeComponent,
+    data: {roles: ['Admin', 'User', 'Customer', '']},
     canActivate: [ AuthGuardService ]
   },
   {
     path: 'companies_set',
     component: Companies_setComponent,
+    data: {roles: ['User']},
     canActivate: [ AuthGuardService ]
   },
   {
     path: 'companies_set/newE',
     component: Companies_set_eventComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['User']}
   },
   {
     path: 'companies_set/:id/E',
     component: Companies_set_eventComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['User']}
   },
   {
     path: 'companies_set/newT',
     component: Companies_set_ticketComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['User']}
   },
   {
     path: 'companies_set/:id/T',
     component: Companies_set_ticketComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['User']}
   },
   {
     path: 'companies_sell',
     component: Companies_sellComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Customer', '']},
   },
   {
     path: 'companies_sell/:eventCalendarName/I',
     component: Company_sell_detailComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Customer', '']},
   },
   {
     path: 'companies_sell/:eventCalendarName/B',
     component: Company_sell_buyComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Customer', '']},
   },
   {
     path: 'companies_admin',
     component: Companies_adminComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin']},
   },
     {
       path: 'companies_admin/newC',
       component: Companies_admin_companyComponent,
+      canActivate: [ AuthGuardService ],
+      data: {roles: ['Admin']},
     },
     {
       path: 'companies_admin/:id/C',
       component: Companies_admin_companyComponent,
+      canActivate: [ AuthGuardService ],
+      data: {roles: ['Admin']},
     },
     {
       path: 'companies_admin/newE',
       component: Companies_admin_eventComponent,
+      canActivate: [ AuthGuardService ],
+      data: {roles: ['Admin']},
     },
     {
       path: 'companies_admin/:id/E',
       component: Companies_admin_eventComponent,
+      canActivate: [ AuthGuardService ],
+      data: {roles: ['Admin']},
     },
     {
       path: 'companies_admin/newT',
       component: Companies_admin_ticketComponent,
+      canActivate: [ AuthGuardService ],
+      data: {roles: ['Admin']},
     },
     {
       path: 'companies_admin/:id/T',
       component: Companies_admin_ticketComponent,
+      canActivate: [ AuthGuardService ],
+      data: {roles: ['Admin']},
     },
   {
     path: 'eventCalendar',
     component: EventCalendarComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['User']},
   },
   {
     path: 'eventCalendar/:id',
     component: EventCalendar_addTicketComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['User']},
   },
   {
     path: 'history',
     component: HistoryComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Customer']},
+
   },
   {
     path: 'users',
     component: UsersComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin']},
   },
   {
     path: 'users/new',
     component: Users_detailComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin']},
   },
   {
     path: 'users/:id',
     component: Users_detailComponent,
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin']},
   },
   {
     path: 'confirmEvent',
     component: ConfirmEventComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin']},
   },
   {
     path: 'confirmUser',
     component: ConfirmUserComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
+    data: {roles: ['Admin']},
   },
   {
     path: 'login-form',
@@ -149,23 +194,8 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'reset-password',
-    component: ResetPasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
     path: 'create-account',
     component: CreateAccountFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'change-password',
-    component: ChangePasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'change-password/:recoveryCode',
-    component: ChangePasswordFormComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -187,9 +217,7 @@ const routes: Routes = [
     SideNavInnerToolbarModule,
     SingleCardModule,
     FooterModule,
-    ResetPasswordFormModule,
     CreateAccountFormModule,
-    ChangePasswordFormModule,
     LoginFormModule,
     UnauthenticatedContentModule,
     HttpClientModule,

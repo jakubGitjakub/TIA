@@ -26,9 +26,8 @@ export class NotAuthorizedContainerComponent {
     const path = this.router.url.split('/')[1];
     switch (path) {
       case 'login-form': return 'Prihlásenie';
-      case 'reset-password': return 'Reset hesla';
       case 'create-account': return 'Registrácia';
-      case 'change-password': return 'Zmena hesla';
+      default: return '';
     }
   }
 
@@ -36,6 +35,7 @@ export class NotAuthorizedContainerComponent {
     const path = this.router.url.split('/')[1];
     switch (path) {
       case 'reset-password': return 'Prosím zadajte emailovú adresu, ktorú ste použili pri registrácií, a my Vám pošleme link reset hesla na email.';
+      default: return '';
     }
   }
 }

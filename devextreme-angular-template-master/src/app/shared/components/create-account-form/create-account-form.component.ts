@@ -21,7 +21,6 @@ export class CreateAccountFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formData.roles = this.rols;
-    console.log(this.rols);
   }
 
   async onSubmit(e) {
@@ -30,13 +29,11 @@ export class CreateAccountFormComponent implements OnInit {
     this.loading = true;
     this.authService.createAccount(login, password, roles);
     this.loading = false;
-
   }
 
   confirmPassword = (e: { value: string }) => {
     return e.value === this.formData.password;
   }
-
 
 }
 @NgModule({

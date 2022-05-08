@@ -26,12 +26,12 @@ Práca na projekte : Beta verzia => 9 + 13 + 17 + 36 = 75hodín, Pokračovanie =
 Odhadovaný čas bol 76hodín, po beta verzii bol odhad 107hodín
 
 Základná kostra projektu 
-Angular : 	18 478.8 lines
+Angular : 	10 054.5 lines
 C# :		0 lines
 
 Finálny projekt
-Angular :
-C# :
+Angular :	17 643.6 lines
+C# :		2 058.4 lines
 
 Keby ste to robili znovu, čo by ste urobili inak : určite by som lepšie potreboval odhadnúť čas na implementáciu 
 podľa času sa potom rozhodnúť do akého projektu sa pustiť, mnoho vecí by som spravil o dosť rýchlejšie, 

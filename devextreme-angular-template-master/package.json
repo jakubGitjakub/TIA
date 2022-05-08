@@ -27,7 +27,8 @@
     "ngx-permission": "^0.2.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "bootstrap": "^5.1.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^12.2.15",

@@ -1,7 +1,6 @@
 import { Component, NgModule, Output, Input, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { DxTreeViewModule, DxTreeViewComponent } from 'devextreme-angular/ui/tree-view';
 import { navigation } from '../../../app-navigation';
-
 import * as events from 'devextreme/events';
 
 @Component({
@@ -26,7 +25,6 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
     if (!this.menu.instance) {
       return;
     }
-
     this.menu.instance.selectItem(value);
   }
 
@@ -40,12 +38,11 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
          return { ...item, expanded: !this._compactMode }
         });
     }
+    
     //nastavenie tlacidiel menu podla roly
-
-    var userRole = localStorage.getItem("rola"); 
+    var userRole = localStorage.getItem("rola") == null ? "" : localStorage.getItem("rola") ; 
     const items = this._items.filter(item => (item['role'].includes(userRole) || (item['role'].includes("") && userRole != "") || (userRole == "" && item['role'].includes("noAuth")))) 
     return items;
-
   }
 
   private _compactMode = false;
